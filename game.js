@@ -1,4 +1,3 @@
-/*<![CDATA[*/
 (function() {
     // --- HỆ THỐNG NGÔN NGỮ ---
     const i18n = {
@@ -334,4 +333,4 @@
     // Khởi tạo ngôn ngữ mặc định
     updateUI('vi');
 })();
-/*]]>*/ 
+
