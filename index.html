@@ -30,6 +30,80 @@ html, body {
 
 <body>
 
+<!-- Bắt đầu Game Copy đoạn
+ CẤU HÌNH HÌNH ẢNH 
+    const planeImg = new Image();
+    planeImg.src = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOfPfl4ybPe5pEqDtNc2jS6hW7FG6cDxx7Rud49W1Kb090XI6KcBflI0A5U7ErO0wiZ6xqp8vw68iwfh3_zypHqv6DhrWn4Ku2NzMof3rdfqui_3oP2CvEid-u-hSHyOmloY5evl0Vn4Ly9g6jQlxSTO9VB9swuHL-bLBoFGdFFHymvOttFnuc8tzht48/w400-h168/m%C3%A1y%20bay%20Chinook.png";
+    const URL_BG = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiYSguR7m9c37lVC8puRqP1zNvDGn8uIwg4GiR6-Oq6EMjf7YkYMo_ti2xtCXEtU8XKUtaQgIlc1iijc01AoXjJAZqpIY8xFF3YQioSnxiy3_G-01pR091EeXQaeac3dFTYMgZt5ic5NQW1CLPsjZ5OUUEln7vsiY7FK3uFRtlziKQHS5flcWkTt2T2rPs/w640-h427/n%E1%BB%81n%205.jfif"; 
+    
+    const mountainTex = new Image();
+    mountainTex.src = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi79IfVgmrPO0fxhyphenhyphenMB9fsdljeMiRR5AJz6gwRxZoR8udnmN9JpK2t8FeXWqD2KlR_OBsNTdINVQk9AUrJ-7IkbW-02jfbZ0tib4rLKH4U5WBlhSIr0whwKB3Dp_YqNapiLHHdoobkpbtYl7QH4xDtyuSObt_uoYM8HLNlUAitzuPtojfTEMrpNOl3cUZI/w640-h640/Texture%20c%C3%A2y%2031%20JG.jpg";
+
+    const sndEngine = new Audio("https://files.catbox.moe/rbfgv4.mp3");
+    sndEngine.loop = true;
+    sndEngine.volume = 0.4;
+    const sndExplode = new Audio("https://files.catbox.moe/jwfmi6.mp3");
+    sndExplode.volume = 0.4;
+
+  THÊM ÂM THANH CẢNH BÁO RADAR 
+    const sndWarning = new Audio("https://files.catbox.moe/a7kk52.mp3");
+    sndWarning.loop = true;
+
+-->
+
+<div id='game-wrapper-fullscreen' style='margin: 10px 0; font-family: sans-serif; position: relative;'>
+    <div id='hoang-manh-land-game' style='position: relative; width: 100%; height: 90vh; background: #020617; overflow: hidden; border: 2px solid #334155; border-radius: 12px; touch-action: none; user-select: none;'>
+        
+        <canvas id='skyGame' style='display: block; width: 100%; height: 100%;'/>
+
+        <div id='ui-layer' style='position: absolute; top: 10px; left: 0; color: white; pointer-events: none; z-index: 50; text-align: center; width: 100%;'>
+            <div style='font-size: 11px; opacity: 0.8; letter-spacing: 1px;'><span id='best-label'>KỶ LỤC</span>: <span id='best-val' style='color: #22c55e;'>0m</span></div>
+           <div id='ingame-best-msg' style='display: none; color: #22c55e; font-weight: bold; font-size: 14px; margin-top: 5px; animation: blink 0.5s infinite;'>🎉 NEW RECORD! </div>
+            <div id='score-val' style='font-size: 28px; font-weight: 900; color: #facc15; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); line-height: 1.2;'>0m</div>
+            
+            <div id='warning-text' style='color: #22d3ee; font-size: 13px; font-weight: bold; display: none; text-shadow: 1px 1px 2px #000; margin-top: 2px;'>&#9888;&#65039; RADAR DETECTED!</div>
+        </div>
+
+        <div id='entry-screen' style='position: absolute; inset: 0; background: #0f172a; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; color: white;'>
+            <h2 id='main-title' style='color: #facc15; margin-bottom: 10px; letter-spacing: 2px; text-align:center;'>MÁY BAY SINH TỒN V16</h2>
+            
+            <div style='margin-bottom: 25px; display: flex; gap: 15px;'>
+    		<div id='lang-vi' style='cursor: pointer; transition: 0.3s; border-radius: 4px; overflow: hidden; border: 2px solid #3b82f6;'>
+       		 <img alt='Tiếng Việt' src='https://flagcdn.com/w80/vn.png' style='display: block; width: 45px; height: 30px; object-fit: cover;'/>	</div>
+    		<div id='lang-en' style='cursor: pointer; transition: 0.3s; border-radius: 4px; overflow: hidden; border: 2px solid transparent;'>
+        	<img alt='English' src='https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj6CH8XVEfVMWQTljD7pmIUydBLLkLMXVjsPIVOuvVkXG_mkcKYAgP7NeMddmO2xEWFOy_wWwHYntBeVJlUlrAZ_tiPSUth2ZjOlt1B51jrot13HdiJweyTk7puSaY8TBI8yJqF6DvmldJY6jp59dTXr2gA3v711gd2joinMJY4x6IUWsz1XpBhvtVyXQs/w200-h100/c%E1%BB%9D%20Anh.jpg' style='display: block; width: 45px; height: 30px; object-fit: cover;'/> </div>
+			</div>
+
+            <button id='enter-fs-btn' style='padding: 18px 45px; font-size: 18px; cursor: pointer; background: #3b82f6; color: white; border: none; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);'>VÀO TOÀN MÀN HÌNH</button>
+            <p id='rotate-hint' style='margin-top: 15px; font-size: 12px; opacity: 0.6;'>Nên xoay ngang điện thoại để trải nghiệm tốt nhất</p>
+        </div>
+
+        <div id='start-screen' style='position: absolute; inset: 0; background: rgba(0,0,0,0.7); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 90; color: white;'>
+            <button id='ready-btn' style='padding: 20px 60px; font-size: 24px; cursor: pointer; background: #22c55e; color: white; border-radius: 50px; border:none; font-weight: bold; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);'>BẮT ĐẦU NGAY</button>
+            <p id='fly-hint' style='margin-top: 10px;'>Chạm và giữ để bay lên!</p>
+        </div>
+
+        <div id='over-screen' style='position: absolute; inset: 0; background: rgba(0,0,0,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 110; color: white;'>
+            <h2 id='fail-title' style='color: #ef4444; margin-bottom: 5px;'>NHIỆM VỤ THẤT BẠI</h2>
+          <div id='new-best-msg' style='display: none; color: #22c55e; font-weight: bold; font-size: 18px; margin-bottom: 10px; animation: blink 0.5s infinite;'>🎉 NEW BEST RECORD! 🎉</div>
+            <div id='final-score' style='font-size: 36px; font-weight: bold; margin-bottom: 20px; color: #facc15;'>0m</div>
+            <div style='display: flex; gap: 15px;'>
+                <button id='retry-btn' style='padding: 12px 30px; background: #22c55e; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>CHƠI LẠI</button>
+                <button id='exit-btn' style='padding: 12px 30px; background: #64748b; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>THOÁT</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@keyframes blink { 50% { opacity: 0; } }
+#ready-btn:hover { background: #16a34a; transform: scale(1.05); }
+:-webkit-full-screen #skyGame { width: 100vw; height: 100vh; }
+:-ms-fullscreen #skyGame { width: 100vw; height: 100vh; }
+:fullscreen #skyGame { width: 100vw; height: 100vh; }
+  
+</style>
+
 <canvas id="gameCanvas"></canvas>
 
 <script src="game.js"></script>
