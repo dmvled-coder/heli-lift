@@ -298,7 +298,7 @@
             if (docElm.requestFullscreen) docElm.requestFullscreen();
             else if (docElm.webkitRequestFullscreen) docElm.webkitRequestFullscreen();
         } catch (err) {}
-       document.addEventListener("touchstart", primeAudioIOS, { once: true });
+      primeAudioIOS();
         entryScreen.style.display = 'none';
         setTimeout(initGame, 300);
     };
