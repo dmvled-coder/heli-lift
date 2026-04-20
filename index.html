@@ -132,7 +132,7 @@
     const sndStar = new Audio("star-xuat-hien.mp3");
 
     function primeAudioIOS() {
-        [sndEngine, sndExplode, sndWarning].forEach(s => {
+        [sndEngine, sndExplode, sndWarning, sndStar].forEach(s => {
             s.volume = 0; s.muted = false;
             let p = s.play();
             if (p !== undefined) {
