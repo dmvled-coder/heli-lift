@@ -53,6 +53,7 @@
         s.volume = 0;
         s.muted = false; // Đảm bảo không bị tắt tiếng hoàn toàn
         let p = s.play();
+         s.volume = 0;   
         if (p !== undefined) {
             p.then(() => {
                 s.volume = 0;
