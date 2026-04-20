@@ -63,7 +63,7 @@
     }
   });
 }
-document.addEventListener("touchstart", primeAudioIOS, { once: true });
+
     let animationId = null, gameActive = false, isRunning = false;
     let score = 0, bestScore = localStorage.getItem('planeBest') || 0;
     let bgX = 0, terrains = [], heightMap = [], currentRadarY = -1000;
@@ -298,7 +298,7 @@ document.addEventListener("touchstart", primeAudioIOS, { once: true });
             if (docElm.requestFullscreen) docElm.requestFullscreen();
             else if (docElm.webkitRequestFullscreen) docElm.webkitRequestFullscreen();
         } catch (err) {}
-       
+       document.addEventListener("touchstart", primeAudioIOS, { once: true });
         entryScreen.style.display = 'none';
         setTimeout(initGame, 300);
     };
