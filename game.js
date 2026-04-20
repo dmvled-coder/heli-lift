@@ -92,11 +92,11 @@
 
     function forceResize() {
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        cfg.gap = canvas.width > 800 ? 140 : 160;
-        plane.w = canvas.width > 800 ? 90 : 80;
-        plane.h = canvas.width > 800 ? 40 : 36;
+        cfg.gap = canvas.width > 800 ? 120 : 160;
+        plane.w = canvas.width > 800 ? 90 : 70;
+        plane.h = canvas.width > 800 ? 40 : 30;
         plane.x = canvas.width / 5;
-        heightMap = new Array(Math.floor(canvas.width) + 150).fill(canvas.height);
+        heightMap = new Array(Math.floor(canvas.width) + 100).fill(canvas.height);
     }
 
     window.addEventListener('resize', forceResize);
