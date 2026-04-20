@@ -299,7 +299,7 @@
 
     // Hàm dùng chung cho hành động Chơi lại
     const handleRetryAction = () => {
-        primeAudioIOS();
+        
         initGame();
     };
 
