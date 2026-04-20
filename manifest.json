@@ -1,10 +1,10 @@
 {
-  "name": "Helicopter Rescue",
-  "short_name": "Helicopter",
-  "start_url": ".",
+  "name": "Heli Touch Game",
+  "short_name": "HeliGame",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
+  "background_color": "#020617",
+  "theme_color": "#020617",
   "orientation": "landscape",
   "icons": [
     {
