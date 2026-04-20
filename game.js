@@ -48,14 +48,25 @@
     const sndStar = new Audio("star-xuat-hien.mp3");
 
     function primeAudioIOS() {
-        [sndEngine, sndExplode, sndWarning, sndStar].forEach(s => {
-            s.volume = 0; s.muted = false;
-            let p = s.play();
-            if (p !== undefined) {
-                p.then(() => { s.pause(); s.currentTime = 0; s.volume = 1; }).catch(() => {});
-            }
-        });
-    }
+    const sounds = [sndEngine, sndExplode, sndWarning, sndStar];
+        sounds.forEach(s => {
+        s.volume = 0;
+        s.muted = false; // Đảm bảo không bị tắt tiếng hoàn toàn
+        let p = s.play();
+        if (p !== undefined) {
+            p.then(() => {
+                s.volume = 0;
+                s.pause(); // tạm dừng ngay khi được phát
+                s.currentTime = 0;
+                // 3. Trả lại âm lượng về 1 để sẵn sàng cho lần phát thật
+                s.volume = 1;
+            }).catch(() => {
+                // Nếu trình duyệt vẫn chặn, đặt lại âm lượng để thử lại sau
+                s.volume = 1;
+            });
+        }
+    });
+}
 
     let animationId = null, gameActive = false, isRunning = false;
     let score = 0, bestScore = localStorage.getItem('planeBest') || 0;
