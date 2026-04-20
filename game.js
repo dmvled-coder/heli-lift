@@ -47,16 +47,22 @@
     const sndWarning = new Audio("https://files.catbox.moe/a7kk52.mp3"); sndWarning.loop = true;
     const sndStar = new Audio("star-xuat-hien.mp3");
 
-      function primeAudioIOS() {
-        [sndEngine, sndExplode, sndWarning, sndStar].forEach(s => {
-            s.volume = 0.1; s.muted = false;
-            let p = s.play();
-            if (p !== undefined) {
-                s.volume = 0.1;
-                p.then(() => { s.pause(); s.currentTime = 0; s.volume = 1; }).catch(() => {});
-            }
-        });
+     function primeAudioIOS() {
+  const sounds = [sndEngine, sndExplode, sndWarning, sndStar];
+  sounds.forEach((s) => {
+    if (!s) return;
+    s.muted = false;      // đảm bảo không bị mute
+    s.volume = 0.01;      // gần như không nghe thấy
+    const p = s.play();
+    if (p !== undefined) {
+      p.then(() => {
+        s.pause();            // dừng ngay
+        s.currentTime = 0;    // reset về đầu
+        s.volume = 1;         // trả lại âm lượng bình thường
+      }).catch(() => {});
     }
+  });
+}
 
     let animationId = null, gameActive = false, isRunning = false;
     let score = 0, bestScore = localStorage.getItem('planeBest') || 0;
