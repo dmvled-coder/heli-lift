@@ -86,7 +86,20 @@
 <script src="game.js"></script>
 <script>
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js");
+  navigator.serviceWorker.register("./service-worker.js").then((reg) => {
+
+    // 🔥 Khi có bản mới → tự reload app
+    reg.onupdatefound = () => {
+      const newWorker = reg.installing;
+      newWorker.onstatechange = () => {
+        if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+          // 👉 có update → reload luôn
+          window.location.reload();
+        }
+      };
+    };
+
+  });
 }
 </script>
 
