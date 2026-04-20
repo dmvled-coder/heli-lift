@@ -1,7 +1,7 @@
 {
   "name": "Heli Touch Game",
   "short_name": "HeliGame",
-  "start_url": "/",
+  "start_url": "https://dmvled-coder.github.io/heli-lift/",
   "display": "standalone",
   "background_color": "#020617",
   "theme_color": "#020617",
