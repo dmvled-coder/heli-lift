@@ -367,7 +367,8 @@
     setupButton('lang-vi', () => updateUI('vi'));
     setupButton('lang-en', () => updateUI('en'));
 
-    setupButton('enter-fs-btn', () => {
+    // Hàm dùng chung cho hành động Bắt đầu/Chạy game
+    const handleStartAction = () => {
         const docElm = document.documentElement;
         try {
             if (docElm.requestFullscreen) docElm.requestFullscreen();
@@ -376,14 +377,55 @@
         primeAudioIOS();
         entryScreen.style.display = 'none';
         setTimeout(initGame, 300);
+    };
+
+    // Hàm dùng chung cho hành động Chơi lại
+    const handleRetryAction = () => {
+        primeAudioIOS();
+        initGame();
+    };
+
+    setupButton('enter-fs-btn', handleStartAction);
+
+    setupButton('ready-btn', () => { 
+        sndEngine.play().catch(() => {}); 
+        isRunning = true; 
+        startScreen.style.display = 'none'; 
     });
 
-    setupButton('ready-btn', () => { sndEngine.play().catch(() => {}); isRunning = true; startScreen.style.display = 'none'; });
-    setupButton('retry-btn', () => { primeAudioIOS(); initGame(); });
+    setupButton('retry-btn', handleRetryAction);
     setupButton('exit-btn', () => location.reload());
 
     const flyStart = (e) => { if(isRunning) isPressing = true; };
     const flyEnd = () => isPressing = false;
+
+    // --- LOGIC ĐIỀU KHIỂN BÀN PHÍM (SPACE) ---
+    window.addEventListener('keydown', (e) => {
+        if (e.code === 'Space') {
+            e.preventDefault(); // Ngăn cuộn trang khi nhấn Space
+            
+            if (isRunning) {
+                isPressing = true;
+            } else {
+                // Nếu game chưa chạy, Space sẽ kích hoạt các nút tùy theo màn hình đang hiển thị
+                if (entryScreen.style.display !== 'none') {
+                    handleStartAction();
+                } else if (startScreen.style.display !== 'none') {
+                    sndEngine.play().catch(() => {}); 
+                    isRunning = true; 
+                    startScreen.style.display = 'none';
+                } else if (resultScreen.style.display !== 'none') {
+                    handleRetryAction();
+                }
+            }
+        }
+    });
+
+    window.addEventListener('keyup', (e) => {
+        if (e.code === 'Space') isPressing = false;
+    });
+    // -----------------------------------------
+
     container.onmousedown = flyStart; 
     container.ontouchstart = (e) => { if(isRunning) { flyStart(); e.preventDefault(); } };
     window.onmouseup = window.ontouchend = flyEnd;
