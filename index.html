@@ -129,6 +129,7 @@
     const sndEngine = new Audio("https://files.catbox.moe/rbfgv4.mp3"); sndEngine.loop = true;
     const sndExplode = new Audio("https://files.catbox.moe/jwfmi6.mp3");
     const sndWarning = new Audio("https://files.catbox.moe/a7kk52.mp3"); sndWarning.loop = true;
+    const sndStar = new Audio("star-xuat-hien.mp3");
 
     function primeAudioIOS() {
         [sndEngine, sndExplode, sndWarning].forEach(s => {
@@ -236,10 +237,10 @@
             } else if (score > 25) {
                 streakDist += 0.08;
                 let d = Math.floor(streakDist);
-                if (d >= 50 && lastStarDist < 50) { currentStarColor = "white"; showStarPopup("✪"); lastStarDist = 50; }
-                else if (d >= 100 && lastStarDist < 100) { currentStarColor = "yellow"; showStarPopup("⭐"); lastStarDist = 100; }
-                else if (d >= 150 && lastStarDist < 150) { currentStarColor = "red"; showStarPopup("🌟"); lastStarDist = 150; }
-                else if (d > 150 && d >= lastStarDist + 150) { starsCount.red++; showStarPopup("🌟"); lastStarDist = d; }
+                if (d >= 50 && lastStarDist < 50) { currentStarColor = "white"; showStarPopup("✪"); lastStarDist = 50; sndStar.play().catch(() => {}); }
+                else if (d >= 100 && lastStarDist < 100) { currentStarColor = "yellow"; showStarPopup("⭐"); lastStarDist = 100; sndStar.play().catch(() => {}); }
+                else if (d >= 150 && lastStarDist < 150) { currentStarColor = "red"; showStarPopup("🌟"); lastStarDist = 150; sndStar.play().catch(() => {}); }
+                else if (d > 150 && d >= lastStarDist + 150) { starsCount.red++; showStarPopup("🌟"); lastStarDist = d; sndStar.play().catch(() => {}); }
             }
 
             if (score > bestScore && bestScore > 0) {
