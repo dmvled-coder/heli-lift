@@ -85,6 +85,16 @@
         setTimeout(() => div.remove(), 2000);
     }
 
+    function requestFullScreen() {
+    const docElm = document.documentElement;
+    try {
+        if (docElm.requestFullscreen) docElm.requestFullscreen();
+        else if (docElm.webkitRequestFullscreen) docElm.webkitRequestFullscreen();
+        else if (docElm.msRequestFullscreen) docElm.msRequestFullscreen();
+    } catch (err) {
+        console.log("Can not full screen", err);
+    }
+}
     function forceResize() {
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         cfg.gap = canvas.width > 800 ? 120 : 160;
@@ -293,21 +303,17 @@
 
     // Hàm dùng chung cho hành động Bắt đầu/Chạy game
     const handleStartAction = () => {
-        const docElm = document.documentElement;
-        try {
-            if (docElm.requestFullscreen) docElm.requestFullscreen();
-            else if (docElm.webkitRequestFullscreen) docElm.webkitRequestFullscreen();
-        } catch (err) {}
-      primeAudioIOS();
-        entryScreen.style.display = 'none';
-        setTimeout(initGame, 300);
-    };
+    requestFullScreen(); // Gọi hàm toàn màn hình
+    primeAudioIOS();
+    entryScreen.style.display = 'none';
+    setTimeout(initGame, 300);
+};
 
     // Hàm dùng chung cho hành động Chơi lại
     const handleRetryAction = () => {
-        
-        initGame();
-    };
+    requestFullScreen(); 
+    initGame();
+        };
 
     setupButton('enter-fs-btn', handleStartAction);
 
