@@ -305,11 +305,7 @@
 
     // Hàm dùng chung cho hành động Chơi lại
     const handleRetryAction = () => {
-      const docElm = document.documentElement;
-        try {
-            if (docElm.requestFullscreen) docElm.requestFullscreen();
-            else if (docElm.webkitRequestFullscreen) docElm.webkitRequestFullscreen();
-        }  
+      
         initGame();
     };
 
