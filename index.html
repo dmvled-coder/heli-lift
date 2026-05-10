@@ -157,15 +157,11 @@
     #submit-score-btn:disabled { background: #888; cursor: not-allowed; }
 
     /* Ẩn trên màn hình nhỏ để không che game */
-    @media (max-width: 900px) {
+    @media (max-width: 600px) {
         #leaderboard-sidebar { display: none; }
     }
 </style>
 
-<div id='leaderboard-sidebar'>
-    <div class='lb-title'>TOP 100 THẾ GIỚI</div>
-    <div id='leaderboard-list'>Đang tải...</div>
-</div>
     
 
 <script src="game.js"></script>
@@ -195,23 +191,44 @@ if ("serviceWorker" in navigator) {
 //<![CDATA[
   // 1. Cấu hình Firebase (Lấy từ Firebase Console của bạn)
   const firebaseConfig = {
-    databaseURL: "https://heli-best-score.firebaseio.com",
+    databaseURL: "https://heli-best-score-default-rtdb.asia-southeast1.firebasedatabase.app",
   };
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
 
   // 2. Hàm gửi điểm lên bảng xếp hạng
-  function submitScore(name, score) {
-    const scoreRef = database.ref('leaderboard').push();
-    scoreRef.set({
+  function submitScore() {
+    const nameInput = document.getElementById('player-name');
+    const btn = document.getElementById('submit-score-btn');
+    const name = nameInput.value.trim();
+    
+    if (!name) {
+        alert("Bạn chưa nhập tên!");
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = "ĐANG GỬI...";
+
+    // Gửi dữ liệu
+    database.ref('leaderboard').push({
         name: name,
-        score: score,
+        score: Math.floor(distance),
         timestamp: Date.now()
-    }).then(() => {
-        alert("Đã lưu điểm thành công!");
-        loadLeaderboard(); // Tải lại bảng sau khi gửi
+    })
+    .then(() => {
+        alert("Lưu điểm thành công!"); // Hiện thông báo để chắc chắn Firebase đã nhận
+        btn.innerText = "ĐÃ LƯU";
+        nameInput.style.display = 'none'; // Ẩn ô nhập đi
+        btn.style.display = 'none';      // Ẩn nút đi
+        loadLeaderboard();               // Cập nhật danh sách bên phải
+    })
+    .catch((err) => {
+        alert("Lỗi: " + err.message);
+        btn.disabled = false;
+        btn.innerText = "LƯU ĐIỂM";
     });
-  }
+}
 
   // Hàm lấy dữ liệu 100 người cao nhất
   function loadLeaderboard() {
@@ -247,18 +264,12 @@ if ("serviceWorker" in navigator) {
   // Luôn gọi hàm này để cập nhật bảng xếp hạng
   loadLeaderboard();
 
-  // 4. Sự kiện khi nhấn nút Lưu điểm
-  document.getElementById('submit-score-btn').onclick = function() {
-      const name = document.getElementById('player-name').value || "Người chơi ẩn danh";
-      // Biến distance là điểm hiện tại của bạn trong game
-      submitScore(name, distance); 
-      this.disabled = true; // Chống spam
-      this.innerText = "ĐÃ LƯU";
-  };
-
-  // Gọi tải bảng xếp hạng khi trang web load
-  loadLeaderboard();
-//]]>
+  
+ //]]>
 </script>    
+<div id='leaderboard-sidebar'>
+    <div class='lb-title'>TOP 100 THẾ GIỚI</div>
+    <div id='leaderboard-list'>Đang tải...</div>
+</div>    
 </body>
 </html>
