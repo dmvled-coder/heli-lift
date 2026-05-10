@@ -151,6 +151,7 @@
             plane.v *= 0.98; plane.y += plane.v;
             if (plane.y < 5) { plane.y = 5; plane.v = 0; }
             score += 0.08; rotorAngle += 0.45;
+            window.globalScore = score; // Thêm dòng này để đẩy điểm ra ngoài
             
             // Logic tính streak sao
             const inRadar = (currentRadarY > 0 && plane.y < currentRadarY);
