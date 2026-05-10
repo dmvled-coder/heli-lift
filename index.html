@@ -162,7 +162,10 @@
     }
 </style>
 
-    
+<div id='leaderboard-sidebar'>
+    <div class='lb-title'>TOP 100 THẾ GIỚI</div>
+    <div id='leaderboard-list'>Đang tải...</div>
+</div>     
 
 <script src="game.js"></script>
 <script>
@@ -189,17 +192,20 @@ if ("serviceWorker" in navigator) {
 
 <script>
 //<![CDATA[
-  // 1. Cấu hình Firebase (Lấy từ Firebase Console của bạn)
+  // 1. Cấu hình Firebase
   const firebaseConfig = {
     databaseURL: "https://heli-best-score-default-rtdb.asia-southeast1.firebasedatabase.app",
   };
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
 
-  // 2. Hàm gửi điểm lên bảng xếp hạng
-  function submitScore() {
+  // 2. Hàm gửi điểm (Gắn trực tiếp vào window để file game.js có thể gọi được)
+  window.submitScore = function() {
     const nameInput = document.getElementById('player-name');
     const btn = document.getElementById('submit-score-btn');
+    
+    // Lấy biến distance từ file game.js
+    const currentScore = typeof distance !== 'undefined' ? distance : 0;
     const name = nameInput.value.trim();
     
     if (!name) {
@@ -210,45 +216,36 @@ if ("serviceWorker" in navigator) {
     btn.disabled = true;
     btn.innerText = "ĐANG GỬI...";
 
-    // Gửi dữ liệu
     database.ref('leaderboard').push({
         name: name,
-        score: Math.floor(distance),
+        score: Math.floor(currentScore),
         timestamp: Date.now()
     })
     .then(() => {
-        alert("Lưu điểm thành công!"); // Hiện thông báo để chắc chắn Firebase đã nhận
+        alert("Lưu điểm thành công!");
         btn.innerText = "ĐÃ LƯU";
-        nameInput.style.display = 'none'; // Ẩn ô nhập đi
-        btn.style.display = 'none';      // Ẩn nút đi
-        loadLeaderboard();               // Cập nhật danh sách bên phải
+        // Ẩn vùng nhập điểm thay vì ẩn từng cái để giao diện sạch hơn
+        document.getElementById('score-input-container').style.display = 'none';
+        loadLeaderboard(); 
     })
     .catch((err) => {
-        alert("Lỗi: " + err.message);
+        alert("Lỗi kết nối: " + err.message);
         btn.disabled = false;
         btn.innerText = "LƯU ĐIỂM";
     });
-}
+  }
 
-  // Hàm lấy dữ liệu 100 người cao nhất
+  // 3. Hàm load bảng xếp hạng
   function loadLeaderboard() {
-    // limitToLast(100) lấy 100 người điểm cao nhất
     const leaderboardRef = database.ref('leaderboard').orderByChild('score').limitToLast(100);
-    
     leaderboardRef.on('value', (snapshot) => {
         let data = [];
-        snapshot.forEach((child) => {
-            data.push(child.val());
-        });
-        
-        // Sắp xếp giảm dần (điểm cao nhất lên đầu)
+        snapshot.forEach((child) => { data.push(child.val()); });
         data.sort((a, b) => b.score - a.score);
         
         let html = '';
         data.forEach((entry, index) => {
-            // Cắt ngắn tên nếu quá dài để không làm vỡ giao diện
             let displayName = entry.name.length > 12 ? entry.name.substring(0, 10) + '..' : entry.name;
-            
             html += `
                 <div class='lb-entry'>
                     <span class='lb-rank'>${index + 1}.</span>
@@ -256,20 +253,19 @@ if ("serviceWorker" in navigator) {
                     <span class='lb-score'>${Math.floor(entry.score)}m</span>
                 </div>`;
         });
-        
-        document.getElementById('leaderboard-list').innerHTML = html;
+        const listDiv = document.getElementById('leaderboard-list');
+        if(listDiv) listDiv.innerHTML = html || "<div style='text-align:center;font-size:10px;'>Chưa có dữ liệu</div>";
     });
   }
 
-  // Luôn gọi hàm này để cập nhật bảng xếp hạng
-  loadLeaderboard();
-
-  
- //]]>
+  // Khởi chạy khi trang sẵn sàng
+  document.addEventListener('DOMContentLoaded', () => {
+    loadLeaderboard();
+    const submitBtn = document.getElementById('submit-score-btn');
+    if(submitBtn) submitBtn.onclick = window.submitScore;
+  });
+//]]>
 </script>    
-<div id='leaderboard-sidebar'>
-    <div class='lb-title'>TOP 100 THẾ GIỚI</div>
-    <div id='leaderboard-list'>Đang tải...</div>
-</div>    
+   
 </body>
 </html>
