@@ -325,25 +325,27 @@
 
     // --- LOGIC ĐIỀU KHIỂN BÀN PHÍM (SPACE) ---
     window.addEventListener('keydown', (e) => {
-        if (e.code === 'Space') {
-            e.preventDefault(); // Ngăn cuộn trang khi nhấn Space
-            
-            if (isRunning) {
-                isPressing = true;
-            } else {
-                // Nếu game chưa chạy, Space sẽ kích hoạt các nút tùy theo màn hình đang hiển thị
-                if (entryScreen.style.display !== 'none') {
-                    handleStartAction();
-                } else if (startScreen.style.display !== 'none') {
-                    sndEngine.play().catch(() => {}); 
-                    isRunning = true; 
-                    startScreen.style.display = 'none';
-                } else if (resultScreen.style.display !== 'none') {
-                    handleRetryAction();
-                }
-            }
-        }
-    });
+    if (e.code === 'Space') {
+        // --- THÊM DÒNG NÀY ---
+        // Nếu chuột đang tập trung vào ô nhập tên thì không xử lý bay/reset game
+        if (document.activeElement.id === 'player-name') return; 
+        // ---------------------
+
+        e.preventDefault();
+        if (isRunning) {
+            isPressing = true;
+        } else {
+            // Logic bắt đầu hoặc chơi lại của bạn ở đây...
+            if (entryScreen.style.display !== 'none') handleStartAction();
+            else if (startScreen.style.display !== 'none') {
+                isRunning = true; 
+                startScreen.style.display = 'none';
+            } else if (overScreen.style.display !== 'none') {
+                handleRetryAction();
+            }
+        }
+    }
+});
 
     window.addEventListener('keyup', (e) => {
         if (e.code === 'Space') isPressing = false;
