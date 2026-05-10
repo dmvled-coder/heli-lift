@@ -203,7 +203,9 @@ if ("serviceWorker" in navigator) {
   window.submitScore = function() {
     const nameInput = document.getElementById('player-name');
     const btn = document.getElementById('submit-score-btn');
-    let finalScore = window.globalDistance || window.distance || 0;
+    
+    // Lấy điểm từ biến globalScore chúng ta vừa đẩy ra ở Bước 1
+    let finalScore = window.globalScore || 0;
     const name = nameInput.value.trim();
     
     if (!name) {
@@ -214,7 +216,7 @@ if ("serviceWorker" in navigator) {
     btn.disabled = true;
     btn.innerText = "ĐANG TÍNH TOÁN...";
 
-    // Bước 1: Gửi điểm lên Firebase
+    // 1. Gửi điểm lên Firebase
     const newScoreRef = database.ref('leaderboard').push();
     newScoreRef.set({
         name: name,
@@ -222,37 +224,38 @@ if ("serviceWorker" in navigator) {
         timestamp: Date.now()
     })
     .then(() => {
-        // Bước 2: Sau khi lưu xong, lấy toàn bộ danh sách điểm để tính thứ hạng
+        // 2. Lấy toàn bộ dữ liệu để tính thứ hạng thực tế
         database.ref('leaderboard').once('value', (snapshot) => {
             let allScores = [];
             snapshot.forEach((child) => {
                 allScores.push(child.val().score);
             });
 
-            // Sắp xếp điểm từ cao xuống thấp
+            // Sắp xếp điểm giảm dần
             allScores.sort((a, b) => b - a);
 
-            // Tìm vị trí của điểm số vừa nhập trong danh sách đã sắp xếp
-            // (Thứ hạng = vị trí đầu tiên tìm thấy + 1)
+            // Tìm thứ hạng (vị trí đầu tiên tìm thấy điểm này + 1)
             const rank = allScores.indexOf(Math.floor(finalScore)) + 1;
 
-            // Bước 3: Hiển thị thông báo cá nhân hóa
+            // 3. Thông báo kết quả cho người chơi
             if (rank <= 100) {
-                alert(`CHÚC MỪNG! Bạn đứng thứ ${rank} trên toàn thế giới!`);
+                alert(`TUYỆT VỜI! Bạn đứng thứ ${rank} trên Bảng xếp hạng thế giới!`);
             } else {
-                alert(`Bạn xếp hạng thứ ${rank}. Hãy cố gắng thêm một chút để lọt vào Top 100 nhé!`);
+                alert(`Bạn xếp hạng thứ ${rank}. Hãy cố gắng thêm chút nữa để lọt vào Top 100 nhé!`);
             }
 
-            // Cập nhật giao diện
-            btn.innerText = "ĐÃ LƯU #" + rank;
-            document.getElementById('score-input-container').style.display = 'none';
-            loadLeaderboard(); 
+            // Cập nhật giao diện nút bấm
+            btn.innerText = "ĐÃ LƯU (Hạng " + rank + ")";
+            nameInput.disabled = true;
+            
+            // Cập nhật lại bảng Sidebar bên phải
+            if (typeof loadLeaderboard === "function") loadLeaderboard();
         });
     })
     .catch((err) => {
         alert("Lỗi: " + err.message);
         btn.disabled = false;
-        btn.innerText = "LƯU ĐIỂM";
+        btn.innerText = "THỬ LẠI";
     });
 }
 
