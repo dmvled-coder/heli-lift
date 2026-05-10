@@ -203,9 +203,7 @@ if ("serviceWorker" in navigator) {
   window.submitScore = function() {
     const nameInput = document.getElementById('player-name');
     const btn = document.getElementById('submit-score-btn');
-    
-    // Lấy biến distance từ file game.js
-    const currentScore = typeof distance !== 'undefined' ? distance : 0;
+    let finalScore = window.globalDistance || window.distance || 0;
     const name = nameInput.value.trim();
     
     if (!name) {
@@ -214,26 +212,49 @@ if ("serviceWorker" in navigator) {
     }
 
     btn.disabled = true;
-    btn.innerText = "ĐANG GỬI...";
+    btn.innerText = "ĐANG TÍNH TOÁN...";
 
-    database.ref('leaderboard').push({
+    // Bước 1: Gửi điểm lên Firebase
+    const newScoreRef = database.ref('leaderboard').push();
+    newScoreRef.set({
         name: name,
-        score: Math.floor(currentScore),
+        score: Math.floor(finalScore),
         timestamp: Date.now()
     })
     .then(() => {
-        alert("Lưu điểm thành công!");
-        btn.innerText = "ĐÃ LƯU";
-        // Ẩn vùng nhập điểm thay vì ẩn từng cái để giao diện sạch hơn
-        document.getElementById('score-input-container').style.display = 'none';
-        loadLeaderboard(); 
+        // Bước 2: Sau khi lưu xong, lấy toàn bộ danh sách điểm để tính thứ hạng
+        database.ref('leaderboard').once('value', (snapshot) => {
+            let allScores = [];
+            snapshot.forEach((child) => {
+                allScores.push(child.val().score);
+            });
+
+            // Sắp xếp điểm từ cao xuống thấp
+            allScores.sort((a, b) => b - a);
+
+            // Tìm vị trí của điểm số vừa nhập trong danh sách đã sắp xếp
+            // (Thứ hạng = vị trí đầu tiên tìm thấy + 1)
+            const rank = allScores.indexOf(Math.floor(finalScore)) + 1;
+
+            // Bước 3: Hiển thị thông báo cá nhân hóa
+            if (rank <= 100) {
+                alert(`CHÚC MỪNG! Bạn đứng thứ ${rank} trên toàn thế giới!`);
+            } else {
+                alert(`Bạn xếp hạng thứ ${rank}. Hãy cố gắng thêm một chút để lọt vào Top 100 nhé!`);
+            }
+
+            // Cập nhật giao diện
+            btn.innerText = "ĐÃ LƯU #" + rank;
+            document.getElementById('score-input-container').style.display = 'none';
+            loadLeaderboard(); 
+        });
     })
     .catch((err) => {
-        alert("Lỗi kết nối: " + err.message);
+        alert("Lỗi: " + err.message);
         btn.disabled = false;
         btn.innerText = "LƯU ĐIỂM";
     });
-  }
+}
 
   // 3. Hàm load bảng xếp hạng
   function loadLeaderboard() {
