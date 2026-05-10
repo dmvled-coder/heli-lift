@@ -37,7 +37,7 @@
     const bestVal = document.getElementById('best-val');
     const ingameMsg = document.getElementById('ingame-best-msg');
 
-    // Giữ nguyên các hình ảnh cũ của bạn
+    //  hình ảnh 
     const planeImg = new Image(); planeImg.src = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOfPfl4ybPe5pEqDtNc2jS6hW7FG6cDxx7Rud49W1Kb090XI6KcBflI0A5U7ErO0wiZ6xqp8vw68iwfh3_zypHqv6DhrWn4Ku2NzMof3rdfqui_3oP2CvEid-u-hSHyOmloY5evl0Vn4Ly9g6jQlxSTO9VB9swuHL-bLBoFGdFFHymvOttFnuc8tzht48/w400-h168/m%C3%A1y%20bay%20Chinook.png";
     const mountainTex = new Image(); mountainTex.src = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi79IfVgmrPO0fxhyphenhyphenMB9fsdljeMiRR5AJz6gwRxZoR8udnmN9JpK2t8FeXWqD2KlR_OBsNTdINVQk9AUrJ-7IkbW-02jfbZ0tib4rLKH4U5WBlhSIr0whwKB3Dp_YqNapiLHHdoobkpbtYl7QH4xDtyuSObt_uoYM8HLNlUAitzuPtojfTEMrpNOl3cUZI/w640-h640/Texture%20c%C3%A2y%2031%20JG.jpg";
     const bgImg = new Image(); bgImg.src = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiYSguR7m9c37lVC8puRqP1zNvDGn8uIwg4GiR6-Oq6EMjf7YkYMo_ti2xtCXEtU8XKUtaQgIlc1iijc01AoXjJAZqpIY8xFF3YQioSnxiy3_G-01pR091EeXQaeac3dFTYMgZt5ic5NQW1CLPsjZ5OUUEln7vsiY7FK3uFRtlziKQHS5flcWkTt2T2rPs/w640-h427/n%E1%BB%81n%205.jfif";
