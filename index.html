@@ -32,61 +32,6 @@
         .btn-hover:active { transform: scale(0.92); filter: brightness(1.2); }
         * { -webkit-tap-highlight-color: transparent; }
     </style>
-<style>
-    #leaderboard-sidebar {
-        position: fixed;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 200px;
-        max-height: 80vh;
-        background: rgba(0, 0, 0, 0.7);
-        color: #fff;
-        border: 1px solid #ffcc00;
-        border-radius: 10px;
-        padding: 10px;
-        font-family: sans-serif;
-        display: flex;
-        flex-direction: column;
-        z-index: 1000;
-    }
-
-    .lb-title {
-        text-align: center;
-        font-weight: bold;
-        color: #ffcc00;
-        margin-bottom: 10px;
-        border-bottom: 1px solid #555;
-        padding-bottom: 5px;
-    }
-
-    #leaderboard-list {
-        overflow-y: auto;
-        flex-grow: 1;
-    }
-
-    .lb-entry {
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        padding: 4px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .lb-rank { color: #ffcc00; width: 25px; }
-    .lb-name { flex-grow: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 5px; }
-    .lb-score { font-weight: bold; }
-
-    /* Tùy chỉnh thanh cuộn cho đẹp */
-    #leaderboard-list::-webkit-scrollbar { width: 4px; }
-    #leaderboard-list::-webkit-scrollbar-thumb { background: #ffcc00; border-radius: 10px; }
-
-    /* Ẩn bảng xếp hạng trên màn hình quá nhỏ để tránh đè vào game */
-    @media (max-width: 800px) {
-        #leaderboard-sidebar { display: none; }
-    }
-</style>
-
  </head>
 <body>
 
@@ -122,6 +67,11 @@
 
         <div id='over-screen' style='position: absolute; inset: 0; background: rgba(0,0,0,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 110; color: white;'>
             <h2 id='fail-title' style='color: #ef4444; margin-bottom: 5px;'>KẾT THÚC</h2>
+
+            <div id='score-input-container'>
+        <input id='player-name' maxlength='15' placeholder='Nhập tên...' type='text'/>
+        <button id='submit-score-btn'>LƯU ĐIỂM</button>
+    </div>
             <div id='final-score' style='font-size: 36px; font-weight: bold; margin-bottom: 10px; color: #facc15;'>0m</div>
             
             <div id="star-results" style="margin-bottom: 20px; display: flex; gap: 20px; font-size: 20px; background: rgba(255,255,255,0.1); padding: 10px 25px; border-radius: 15px;">
@@ -138,15 +88,86 @@
     </div>
 </div>
 
-<div id='leaderboard-input' style='margin-top: 15px;'>
-    <input id='player-name' placeholder='Nhập tên của bạn' style='padding: 8px; border-radius: 5px; border: none; width: 60%;' type='text'/>
-    <button id='submit-score-btn' style='padding: 8px 15px; background: #ffcc00; border: none; border-radius: 5px; font-weight: bold;'>LƯU ĐIỂM</button>
-</div>
-    
+<style>
+    /* Khung bảng xếp hạng bên phải */
+    #leaderboard-sidebar {
+        position: fixed;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 180px;
+        max-height: 70vh;
+        background: rgba(0, 0, 0, 0.8);
+        color: #fff;
+        border: 2px solid #ffcc00;
+        border-radius: 10px;
+        padding: 10px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        flex-direction: column;
+        z-index: 9999;
+        box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+    }
+    .lb-title {
+        text-align: center;
+        font-weight: bold;
+        color: #ffcc00;
+        font-size: 14px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #444;
+        padding-bottom: 5px;
+    }
+    #leaderboard-list {
+        overflow-y: auto;
+        flex-grow: 1;
+    }
+    .lb-entry {
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+        padding: 5px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .lb-rank { color: #ffcc00; width: 20px; font-weight: bold; }
+    .lb-name { flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 5px; }
+    .lb-score { color: #00ffcc; }
+
+    /* Ô nhập tên ở màn hình kết quả */
+    #score-input-container {
+        margin: 15px 0;
+        background: rgba(255,255,255,0.1);
+        padding: 10px;
+        border-radius: 8px;
+    }
+    #player-name {
+        width: 140px;
+        padding: 8px;
+        border-radius: 4px;
+        border: none;
+        outline: none;
+    }
+    #submit-score-btn {
+        padding: 8px 12px;
+        background: #ffcc00;
+        border: none;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    #submit-score-btn:disabled { background: #888; cursor: not-allowed; }
+
+    /* Ẩn trên màn hình nhỏ để không che game */
+    @media (max-width: 900px) {
+        #leaderboard-sidebar { display: none; }
+    }
+</style>
+
 <div id='leaderboard-sidebar'>
-    <div class='lb-title'>TOP 100 GLOBAL</div>
+    <div class='lb-title'>TOP 100 THẾ GIỚI</div>
     <div id='leaderboard-list'>Đang tải...</div>
 </div>
+    
+
 <script src="game.js"></script>
 <script>
 if ("serviceWorker" in navigator) {
