@@ -198,15 +198,21 @@
     const popup = document.getElementById('score-popup');
     const scoreDisplay = document.getElementById('popup-score-text');
     const nameInput = document.getElementById('player-name');
+    const btn = document.getElementById('submit-score-btn');
     
     if(popup) popup.style.display = 'flex';
     if(scoreDisplay) scoreDisplay.innerText = Math.floor(finalScore) + "m";
+    
     if(nameInput) {
-        nameInput.disabled = false;
-        nameInput.value = "";
-        nameInput.focus();
+        nameInput.disabled = false; // Mở khóa ô nhập
+        // Không xóa nameInput.value để người chơi không phải gõ lại tên nhiều lần
     }
-  };
+    
+    if(btn) {
+        btn.disabled = false; // Mở khóa nút
+        btn.innerText = "LƯU LẠI"; // Reset chữ trên nút
+    }
+};
 
   window.closeScorePopup = function() {
     const popup = document.getElementById('score-popup');
@@ -250,10 +256,14 @@
             }
 
             btn.innerText = "ĐÃ LƯU #" + rank;
-            nameInput.disabled = true;
-            
-            // Tự động đóng popup sau 1.5 giây để về màn hình kết quả
-            setTimeout(window.closeScorePopup, 1500);
+                        
+            // Tự động đóng popup sau 1 giây để về màn hình kết quả
+           setTimeout(() => {
+        window.closeScorePopup();
+        // Sau khi đóng, hãy reset lại chữ để lần sau mở lên không bị chữ "Đã lưu"
+        btn.disabled = false;
+        btn.innerText = "LƯU LẠI";
+    }, 1000);
             if (typeof loadLeaderboard === "function") loadLeaderboard();
         });
     })
