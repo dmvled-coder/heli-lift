@@ -9,7 +9,7 @@
     <style>
         body, html { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #020617; font-family: sans-serif; }
         #game-wrapper-fullscreen { width: 100%; height: 100vh; position: relative; }
-        #heli-touch { position: relative; width: 100%; height: 100%; background: #020617; overflow: hidden; touch-action: none; user-select: none; }
+        #heli-touch { position: relative; width: 100%; height: 100%; background: #020617; overflow: hidden; touch-action: manipulation; user-select: none; }
         canvas { display: block; width: 100%; height: 100%; }
         
         /* Hiệu ứng Popup Sao */
@@ -138,24 +138,22 @@
     .lb-score { color: #00ffcc; }
 
     /* Ô nhập tên ở màn hình kết quả */
-  #over-screen {
-    z-index: 200000 !important;
-}
-
-#score-input-container {
+  #score-input-container {
+    margin: 15px 0;
+    background: rgba(255,255,255,0.15);
+    padding: 15px;
+    border-radius: 12px;
     position: relative;
-    z-index: 300000 !important;
-    pointer-events: auto !important;
+    z-index: 999999;
 }
 
 #player-name {
-    position: relative;
-    z-index: 400000 !important;
-    pointer-events: auto !important;
-    -webkit-user-select: text; /* Cho phép chọn văn bản trên iOS */
+    pointer-events: auto;
+    touch-action: auto;
     user-select: text;
-    background-color: blue !important; /* Đổi màu nền để dễ nhận biết đã chạm hay chưa */
-    color: black !important;
+    -webkit-user-select: text;
+    font-size: 16px; /* QUAN TRỌNG cho iPhone */
+    padding: 10px;
 }
     
     #submit-score-btn {
