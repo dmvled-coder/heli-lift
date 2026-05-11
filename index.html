@@ -72,10 +72,11 @@
         <div id='over-screen' style='position: absolute; inset: 0; background: rgba(0,0,0,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 110; color: white;'>
             <h2 id='fail-title' style='color: #ef4444; margin-bottom: 5px;'>KẾT THÚC</h2>
 
-            <div id='score-input-container'>
-        <input id='player-name' maxlength='15' placeholder='Nhập tên...' type='text'/>
-        <button id='submit-score-btn'>LƯU ĐIỂM</button>
-    </div>
+ <div id='score-input-container'>
+    <input id='player-name' maxlength='15' placeholder='Nhập tên...' type='text' style="pointer-events: auto;"    onmousedown="event.stopPropagation();" 
+           ontouchstart="event.stopPropagation();"/>
+    <button id='submit-score-btn'   onmousedown="event.stopPropagation();"     ontouchstart="event.stopPropagation();">LƯU ĐIỂM</button>
+</div>
             <div id='final-score' style='font-size: 36px; font-weight: bold; margin-bottom: 10px; color: #facc15;'>0m</div>
             
             <div id="star-results" style="margin-bottom: 20px; display: flex; gap: 20px; font-size: 20px; background: rgba(255,255,255,0.1); padding: 10px 25px; border-radius: 15px;">
