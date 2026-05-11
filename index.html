@@ -32,15 +32,19 @@
         .btn-hover:active { transform: scale(0.92); filter: brightness(1.2); }
         * { -webkit-tap-highlight-color: transparent; }
 
-        #score-popup {
+       #score-popup {
     display: none; 
     position: fixed; 
-    inset: 0; 
-    background: rgba(0,0,0,0.9); 
-    z-index: 999999; 
+    left: 0; 
+    top: 0; 
+    width: 100vw; /* Ép toàn bộ chiều rộng */
+    height: 100vh; /* Ép toàn bộ chiều cao */
+    background: rgba(0,0,0,0.95); 
+    z-index: 9999999 !important; /* Con số cực lớn */
     justify-content: center; 
-    align-items: center; 
-    padding: 20px;
+    align-items: center;
+    pointer-events: auto !important; /* Cho phép nhận sự kiện chạm */
+    touch-action: none; /* Chặn cuộn trang bên dưới */
 }
 #player-name {
     width: 100%; 
