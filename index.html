@@ -138,22 +138,23 @@
     .lb-score { color: #00ffcc; }
 
     /* Ô nhập tên ở màn hình kết quả */
-  #score-input-container {
+ #score-input-container {
     margin: 15px 0;
     background: rgba(255,255,255,0.15);
     padding: 15px;
     border-radius: 12px;
-    position: relative;
-    z-index: 999999;
+    position: relative; 
+    z-index: 999999 !important; /* Đảm bảo cao hơn tất cả các lớp khác */
+    pointer-events: auto !important; /* Cho phép chạm vào */
 }
 
-#player-name {
-    pointer-events: auto;
-    touch-action: auto;
-    user-select: text;
-    -webkit-user-select: text;
-    font-size: 16px; /* QUAN TRỌNG cho iPhone */
-    padding: 10px;
+#player-name,  {
+    pointer-events: auto !important;
+    position: relative;
+    touch-action: auto !important;
+    user-select: text !important;
+    -webkit-user-select: text !important;
+   
 }
     
     #submit-score-btn {
