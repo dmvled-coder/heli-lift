@@ -283,11 +283,21 @@
     }
 
     function setupButton(id, callback) {
-        const el = document.getElementById(id);
-        const handler = (e) => { e.preventDefault(); callback(); };
-        el.onclick = handler;
-        el.addEventListener('touchstart', handler, {passive: false});
-    }
+    const el = document.getElementById(id);
+
+    let busy = false;
+
+    el.addEventListener('click', () => {
+        if (busy) return;
+
+        busy = true;
+        callback();
+
+        setTimeout(() => {
+            busy = false;
+        }, 300);
+    });
+}
 
     setupButton('lang-vi', () => updateUI('vi'));
     setupButton('lang-en', () => updateUI('en'));
