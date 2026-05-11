@@ -138,19 +138,22 @@
     .lb-score { color: #00ffcc; }
 
     /* Ô nhập tên ở màn hình kết quả */
-    #score-input-container {
-        margin: 15px 0;
-        background: rgba(255,255,255,0.1);
-        padding: 10px;
-        border-radius: 8px;
-    }
-    #player-name {
-        width: 140px;
-        padding: 8px;
-        border-radius: 4px;
-        border: none;
-        outline: none;
-    }
+   #score-input-container {
+    margin: 15px 0;
+    background: rgba(255,255,255,0.15);
+    padding: 15px;
+    border-radius: 12px;
+    position: relative; 
+    z-index: 999999 !important; /* Đảm bảo cao hơn tất cả các lớp khác */
+    pointer-events: auto !important; /* Cho phép chạm vào */
+}
+
+#player-name, #submit-score-btn {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 1000000 !important;
+}
+    
     #submit-score-btn {
         padding: 8px 12px;
         background: #ffcc00;
@@ -158,6 +161,7 @@
         border-radius: 4px;
         font-weight: bold;
         cursor: pointer;
+        z-index: 999999 !important;
     }
     #submit-score-btn:disabled { background: #888; cursor: not-allowed; }
 
