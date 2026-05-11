@@ -72,11 +72,7 @@
         <div id='over-screen' style='position: absolute; inset: 0; background: rgba(0,0,0,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 110; color: white;'>
             <h2 id='fail-title' style='color: #ef4444; margin-bottom: 5px;'>KẾT THÚC</h2>
 
- <div id='score-input-container'>
-    <input id='player-name' maxlength='15' placeholder='Nhập tên...' type='text' style="pointer-events: auto;"    />
-    <button id='submit-score-btn'   >LƯU ĐIỂM</button>
-</div>
-            <div id='final-score' style='font-size: 36px; font-weight: bold; margin-bottom: 10px; color: #facc15;'>0m</div>
+             <div id='final-score' style='font-size: 36px; font-weight: bold; margin-bottom: 10px; color: #facc15;'>0m</div>
             
             <div id="star-results" style="margin-bottom: 20px; display: flex; gap: 20px; font-size: 20px; background: rgba(255,255,255,0.1); padding: 10px 25px; border-radius: 15px;">
     <div style="color: #ffffff;">★ <span id="count-white" style="color: white;">0</span></div>
@@ -136,37 +132,7 @@
     .lb-name { flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 5px; }
     .lb-score { color: #00ffcc; }
 
-    /* Ô nhập tên ở màn hình kết quả */
- #score-input-container {
-    margin: 15px 0;
-    background: rgba(255,255,255,0.15);
-    padding: 15px;
-    border-radius: 12px;
-    position: relative; 
-    z-index: 99999 !important; /* Đảm bảo cao hơn tất cả các lớp khác */
-    pointer-events: auto !important; /* Cho phép chạm vào */
-}
-
-#player-name,  {
-    pointer-events: auto !important;
-    position: relative;
-    touch-action: auto !important;
-    user-select: text !important;
-    -webkit-user-select: text !important;
-    z-index: 999999 !important;
-}
-    
-    #submit-score-btn {
-        padding: 8px 12px;
-        background: #ffcc00;
-        border: none;
-        border-radius: 4px;
-        font-weight: bold;
-        cursor: pointer;
-        
-           }
-    #submit-score-btn:disabled { background: #888; cursor: not-allowed; }
-
+  
     /* Ẩn trên màn hình nhỏ để không che game */
     @media (max-width: 600px) {
         #leaderboard-sidebar { display: none; }
@@ -205,12 +171,31 @@
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
 
-  // 2. Hàm gửi điểm (Gắn trực tiếp vào window để file game.js có thể gọi được)
+  // 2. Hàm mở/đóng Popup
+  window.showScorePopup = function() {
+    const finalScore = window.globalScore || 0;
+    const popup = document.getElementById('score-popup');
+    const scoreDisplay = document.getElementById('popup-score-text');
+    const nameInput = document.getElementById('player-name');
+    
+    if(popup) popup.style.display = 'flex';
+    if(scoreDisplay) scoreDisplay.innerText = Math.floor(finalScore) + "m";
+    if(nameInput) {
+        nameInput.disabled = false;
+        nameInput.value = "";
+        nameInput.focus();
+    }
+  };
+
+  window.closeScorePopup = function() {
+    const popup = document.getElementById('score-popup');
+    if(popup) popup.style.display = 'none';
+  };
+
+  // 3. Hàm gửi điểm chính thức
   window.submitScore = function() {
     const nameInput = document.getElementById('player-name');
     const btn = document.getElementById('submit-score-btn');
-    
-    // Lấy điểm từ biến globalScore chúng ta vừa đẩy ra ở Bước 1
     let finalScore = window.globalScore || 0;
     const name = nameInput.value.trim();
     
@@ -220,9 +205,9 @@
     }
 
     btn.disabled = true;
-    btn.innerText = "ĐANG TÍNH TOÁN...";
+    btn.innerText = "ĐANG LƯU...";
 
-    // 1. Gửi điểm lên Firebase
+    // Gửi dữ liệu lên Firebase
     const newScoreRef = database.ref('leaderboard').push();
     newScoreRef.set({
         name: name,
@@ -230,31 +215,24 @@
         timestamp: Date.now()
     })
     .then(() => {
-        // 2. Lấy toàn bộ dữ liệu để tính thứ hạng thực tế
+        // Tính toán thứ hạng ngay lập tức
         database.ref('leaderboard').once('value', (snapshot) => {
             let allScores = [];
-            snapshot.forEach((child) => {
-                allScores.push(child.val().score);
-            });
-
-            // Sắp xếp điểm giảm dần
+            snapshot.forEach((child) => { allScores.push(child.val().score); });
             allScores.sort((a, b) => b - a);
-
-            // Tìm thứ hạng (vị trí đầu tiên tìm thấy điểm này + 1)
             const rank = allScores.indexOf(Math.floor(finalScore)) + 1;
 
-            // 3. Thông báo kết quả cho người chơi
             if (rank <= 100) {
-                alert(`TUYỆT VỜI! Bạn đứng thứ ${rank} trên Bảng xếp hạng thế giới!`);
+                alert(`TUYỆT VỜI! Bạn đứng thứ ${rank} thế giới!`);
             } else {
-                alert(`Bạn xếp hạng thứ ${rank}. Hãy cố gắng thêm chút nữa để lọt vào Top 100 nhé!`);
+                alert(`Bạn xếp hạng thứ ${rank}. Cố gắng lọt Top 100 nhé!`);
             }
 
-            // Cập nhật giao diện nút bấm
-            btn.innerText = "ĐÃ LƯU (Hạng " + rank + ")";
+            btn.innerText = "ĐÃ LƯU #" + rank;
             nameInput.disabled = true;
             
-            // Cập nhật lại bảng Sidebar bên phải
+            // Tự động đóng popup sau 1.5 giây để về màn hình kết quả
+            setTimeout(window.closeScorePopup, 1500);
             if (typeof loadLeaderboard === "function") loadLeaderboard();
         });
     })
@@ -263,9 +241,9 @@
         btn.disabled = false;
         btn.innerText = "THỬ LẠI";
     });
-}
+  };
 
-  // 3. Hàm load bảng xếp hạng
+  // 4. Hàm load bảng xếp hạng Sidebar
   function loadLeaderboard() {
     const leaderboardRef = database.ref('leaderboard').orderByChild('score').limitToLast(100);
     leaderboardRef.on('value', (snapshot) => {
@@ -288,20 +266,51 @@
     });
   }
 
-  // Khởi chạy khi trang sẵn sàng
+  // 5. Khởi tạo sự kiện
   document.addEventListener('DOMContentLoaded', () => {
     loadLeaderboard();
+    
+    // Gán sự kiện cho nút Hủy
+    const cancelBtn = document.getElementById('cancel-score-btn');
+    if(cancelBtn) cancelBtn.onclick = window.closeScorePopup;
+
+    // Gán sự kiện cho nút Lưu (Hỗ trợ cả Mobile & PC)
     const submitBtn = document.getElementById('submit-score-btn');
-if(submitBtn) {
-    submitBtn.onclick = window.submitScore;
-    submitBtn.ontouchend = (e) => {
-        e.preventDefault();
-        window.submitScore();
-    };
-}
+    if(submitBtn) {
+        submitBtn.onclick = (e) => { e.stopPropagation(); window.submitScore(); };
+        submitBtn.ontouchend = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.submitScore();
+        };
+    }
+
+    // Chặn phím Space khi đang gõ tên để không làm nhảy máy bay
+    const nameInp = document.getElementById('player-name');
+    if(nameInp) {
+        nameInp.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') e.stopPropagation();
+        });
+        // Ngăn chạm vào ô input làm kích hoạt Game
+        nameInp.ontouchstart = (e) => e.stopPropagation();
+    }
   });
 //]]>
-</script>    
-   
+</script>
+    
+<div id="score-popup" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999999; justify-content: center; align-items: center; padding: 20px;">
+    <div style="background: #1e293b; padding: 25px; border-radius: 20px; border: 2px solid #facc15; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 0 20px rgba(250, 204, 21, 0.4);">
+        <h3 style="color: #facc15; margin-top: 0;">LƯU KỶ LỤC</h3>
+        <p style="color: white; font-size: 14px; margin-bottom: 15px;">Bạn đạt được: <span id="popup-score-text" style="color: #22c55e; font-weight: bold;">0m</span></p>
+        
+        <input id="player-name" maxlength="15" placeholder="Nhập tên của bạn..." type="text" 
+               style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: none; font-size: 16px; outline: none; box-sizing: border-box; -webkit-user-select: text; user-select: text;">
+        
+        <div style="display: flex; gap: 10px;">
+            <button id="cancel-score-btn" style="flex: 1; padding: 12px; background: #64748b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">HỦY</button>
+            <button id="submit-score-btn" style="flex: 1; padding: 12px; background: #facc15; color: #0f172a; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">LƯU LẠI</button>
+        </div>
+    </div>
+</div>   
 </body>
 </html>
