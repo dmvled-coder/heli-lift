@@ -31,6 +31,26 @@
         .btn-hover { transition: transform 0.1s; -webkit-tap-highlight-color: transparent; }
         .btn-hover:active { transform: scale(0.92); filter: brightness(1.2); }
         * { -webkit-tap-highlight-color: transparent; }
+
+        #score-popup {
+    display: none; 
+    position: fixed; 
+    inset: 0; 
+    background: rgba(0,0,0,0.9); 
+    z-index: 999999; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 20px;
+}
+#player-name {
+    width: 100%; 
+    padding: 12px; 
+    margin-bottom: 20px; 
+    border-radius: 8px; 
+    border: none; 
+    font-size: 16px; /* 16px để iOS không tự zoom */
+    box-sizing: border-box;
+}
     </style>
  </head>
 <body>
@@ -81,6 +101,7 @@
 </div>
 
             <div style='display: flex; gap: 15px;'>
+                <button onclick="window.showScorePopup()" style='padding: 12px 20px; background: #facc15; color: #000; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>LƯU ĐIỂM</button>
                 <button id='retry-btn' class="btn-hover" style='padding: 12px 30px; background: #22c55e; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>CHƠI LẠI</button>
                 <button id='exit-btn' class="btn-hover" style='padding: 12px 30px; background: #64748b; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>THOÁT</button>
             </div>
