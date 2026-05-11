@@ -306,9 +306,17 @@
 
     // Hàm dùng chung cho hành động Chơi lại
     const handleRetryAction = () => {
-      
-        initGame();
-    };
+    // Đảm bảo các màn hình cũ bị ẩn
+    overScreen.style.display = 'none';
+    // Reset lại ô nhập điểm để ván mới có thể nhập lại
+    document.getElementById('score-input-container').style.display = 'block';
+    const btn = document.getElementById('submit-score-btn');
+    btn.disabled = false;
+    btn.innerText = "LƯU ĐIỂM";
+    document.getElementById('player-name').disabled = false;
+
+    initGame();
+};
 
     setupButton('enter-fs-btn', handleStartAction);
 
@@ -319,7 +327,13 @@
     });
 
     setupButton('retry-btn', handleRetryAction);
-    setupButton('exit-btn', () => location.reload());
+    setupButton('exit-btn', () => {
+    overScreen.style.display = 'none';
+    entryScreen.style.display = 'flex';
+    isRunning = false;
+    // Cập nhật lại bảng xếp hạng một lần nữa cho chắc chắn
+    if (typeof loadLeaderboard === "function") loadLeaderboard();
+});
 
     const flyStart = (e) => { if(isRunning) isPressing = true; };
     const flyEnd = () => isPressing = false;
