@@ -310,14 +310,19 @@
 
     // Hàm dùng chung cho hành động Chơi lại
     const handleRetryAction = () => {
-    // Đảm bảo các màn hình cũ bị ẩn
+    // Các logic cũ của bạn (ẩn overScreen, initGame...)
     overScreen.style.display = 'none';
-    // Reset lại ô nhập điểm để ván mới có thể nhập lại
-    document.getElementById('score-input-container').style.display = 'block';
+    
+    // RESET TRẠNG THÁI NÚT LƯU ĐIỂM
     const btn = document.getElementById('submit-score-btn');
-    btn.disabled = false;
-    btn.innerText = "LƯU ĐIỂM";
-    document.getElementById('player-name').disabled = false;
+    const nameInput = document.getElementById('player-name');
+    if(btn) {
+        btn.disabled = false;
+        btn.innerText = "LƯU LẠI";
+    }
+    if(nameInput) {
+        nameInput.disabled = false;
+    }
 
     initGame();
 };
