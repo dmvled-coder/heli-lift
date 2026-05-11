@@ -284,19 +284,13 @@
 
     function setupButton(id, callback) {
     const el = document.getElementById(id);
-
-    let busy = false;
-
-    el.addEventListener('click', () => {
-        if (busy) return;
-
-        busy = true;
+    const handler = (e) => {
+        e.preventDefault();
         callback();
+    };
 
-        setTimeout(() => {
-            busy = false;
-        }, 300);
-    });
+    el.onclick = handler;
+    el.addEventListener('touchstart', handler, {passive: false});
 }
 
     setupButton('lang-vi', () => updateUI('vi'));
