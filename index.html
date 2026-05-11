@@ -286,7 +286,13 @@
   document.addEventListener('DOMContentLoaded', () => {
     loadLeaderboard();
     const submitBtn = document.getElementById('submit-score-btn');
-    if(submitBtn) submitBtn.onclick = window.submitScore;
+if(submitBtn) {
+    submitBtn.onclick = window.submitScore;
+    submitBtn.ontouchend = (e) => {
+        e.preventDefault();
+        window.submitScore();
+    };
+}
   });
 //]]>
 </script>    
