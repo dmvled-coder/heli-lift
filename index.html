@@ -104,11 +104,11 @@
     <div style="color: #ef4444;">🌟 <span id="count-red" style="color: white;">0</span></div>
 </div>
 
-            <div style='display: flex; gap: 15px;'>
-                <button onclick="window.showScorePopup()" style='padding: 12px 20px; background: #facc15; color: #000; border:none; border-radius: 8px; font-weight:bold; cursor:pointer; z-index: 999999;'>LƯU ĐIỂM</button>
-                <button id='retry-btn' class="btn-hover" style='padding: 12px 30px; background: #22c55e; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>CHƠI LẠI</button>
-                <button id='exit-btn' class="btn-hover" style='padding: 12px 30px; background: #64748b; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>THOÁT</button>
-            </div>
+ <div style='display: flex; gap: 15px;'>
+    <button id='save-score-trigger' class="btn-hover" style='padding: 12px 20px; background: #facc15; color: #000; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>LƯU ĐIỂM</button>
+    <button id='retry-btn' class="btn-hover" style='padding: 12px 30px; background: #22c55e; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>CHƠI LẠI</button>
+    <button id='exit-btn' class="btn-hover" style='padding: 12px 30px; background: #64748b; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>THOÁT</button>
+</div>
         </div>
     </div>
 </div>
@@ -302,34 +302,46 @@
   }
 
   // 5. Khởi tạo sự kiện
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     loadLeaderboard();
-    
-    // Gán sự kiện cho nút Hủy
-    const cancelBtn = document.getElementById('cancel-score-btn');
-    if(cancelBtn) cancelBtn.onclick = window.closeScorePopup;
 
-    // Gán sự kiện cho nút Lưu (Hỗ trợ cả Mobile & PC)
+    // 1. Xử lý nút mở Popup Lưu Điểm
+    const saveTrigger = document.getElementById('save-score-trigger');
+    if (saveTrigger) {
+        const handleOpenPopup = (e) => {
+            e.preventDefault(); // Ngăn chặn sự kiện mặc định
+            e.stopPropagation(); // Ngăn sự kiện trôi xuống lớp Game bên dưới
+            window.showScorePopup();
+        };
+        // Gán cả hai để chắc chắn chạy trên mọi thiết bị
+        saveTrigger.onclick = handleOpenPopup;
+        saveTrigger.ontouchend = handleOpenPopup;
+    }
+
+    // 2. Xử lý nút Gửi điểm bên TRONG Popup
     const submitBtn = document.getElementById('submit-score-btn');
-    if(submitBtn) {
-        submitBtn.onclick = (e) => { e.stopPropagation(); window.submitScore(); };
-        submitBtn.ontouchend = (e) => {
+    if (submitBtn) {
+        const handleSubmit = (e) => {
             e.preventDefault();
             e.stopPropagation();
             window.submitScore();
         };
+        submitBtn.onclick = handleSubmit;
+        submitBtn.ontouchend = handleSubmit;
     }
 
-    // Chặn phím Space khi đang gõ tên để không làm nhảy máy bay
-    const nameInp = document.getElementById('player-name');
-    if(nameInp) {
-        nameInp.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') e.stopPropagation();
-        });
-        // Ngăn chạm vào ô input làm kích hoạt Game
-        nameInp.ontouchstart = (e) => e.stopPropagation();
+    // 3. Cho phép gõ chữ vào ô Input (Rất quan trọng cho Android)
+    const nameInput = document.getElementById('player-name');
+    if (nameInput) {
+        nameInput.addEventListener('touchstart', (e) => {
+            e.stopPropagation(); // Không cho sự kiện chạm vào ô nhập liệu làm máy bay bay
+        }, { passive: true });
+        
+        nameInput.onclick = (e) => {
+            e.focus(); // Ép focus khi nhấn trên mobile
+        };
     }
-  });
+});
 //]]>
 </script>
     
