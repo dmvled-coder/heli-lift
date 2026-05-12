@@ -32,28 +32,24 @@
         .btn-hover:active { transform: scale(0.92); filter: brightness(1.2); }
         * { -webkit-tap-highlight-color: transparent; }
 
-       #score-popup {
+      #score-popup {
     display: none; 
     position: fixed; 
-    left: 0; 
-    top: 0; 
-    width: 100vw; /* Ép toàn bộ chiều rộng */
-    height: 100vh; /* Ép toàn bộ chiều cao */
-    background: rgba(0,0,0,0.95); 
-    z-index: 9999999 !important; /* Con số cực lớn */
+    inset: 0 !important;
+    background: rgba(0,0,0,0.9); 
+    z-index: 2147483647 !important; 
     justify-content: center; 
     align-items: center;
-    pointer-events: auto !important; /* Cho phép nhận sự kiện chạm */
-    touch-action: none; /* Chặn cuộn trang bên dưới */
+    /* Quan trọng: Cho phép mọi tương tác chuột/chạm */
+    pointer-events: auto !important; 
+    touch-action: auto !important;
 }
-#player-name {
-    width: 100%; 
-    padding: 12px; 
-    margin-bottom: 20px; 
-    border-radius: 8px; 
-    border: none; 
-    font-size: 16px; /* 16px để iOS không tự zoom */
-    box-sizing: border-box;
+
+/* Ép các thành phần bên trong popup phải nhận tương tác */
+#score-popup *, #player-name, #cancel-score-btn, #submit-score-btn {
+    pointer-events: auto !important;
+    -webkit-user-select: text !important; /* Cho phép chọn văn bản/nhập liệu trên iOS */
+    user-select: text !important;
 }
     </style>
  </head>
