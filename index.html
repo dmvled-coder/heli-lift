@@ -313,17 +313,32 @@ document.addEventListener('DOMContentLoaded', () => {
         saveTrigger.onclick = handleOpenPopup;
         saveTrigger.ontouchend = handleOpenPopup;
     }
-  // 1.1. Cho phép gõ chữ vào ô Input (Rất quan trọng cho Android)  
- const nameInput = document.getElementById('player-name');
-    if (nameInput) {
-        nameInput.addEventListener('touchstart', (e) => {
-            e.stopPropagation(); // Không cho sự kiện chạm vào ô nhập liệu làm máy bay bay
+  // 3. Fix input mobile Android/iPhone
+const nameInput = document.getElementById('player-name');
+
+if (nameInput) {
+
+    // Chặn game nhận touch
+    ['touchstart', 'touchend', 'mousedown', 'mouseup', 'click'].forEach(evt => {
+        nameInput.addEventListener(evt, (e) => {
+            e.stopPropagation();
         }, { passive: true });
-        
-        nameInput.onclick = (e) => {
-            e.focus(); // Ép focus khi nhấn trên mobile
-        };
-    }
+    });
+
+    // Android Chrome cần focus bằng touchend
+    nameInput.addEventListener('touchend', (e) => {
+        e.preventDefault();
+
+        nameInput.focus();
+
+        // ép hiện keyboard Android
+        setTimeout(() => {
+            nameInput.click();
+        }, 50);
+
+    }, { passive: false });
+
+}
     // 2. Xử lý nút Gửi điểm bên TRONG Popup
     const submitBtn = document.getElementById('submit-score-btn');
     if (submitBtn) {
