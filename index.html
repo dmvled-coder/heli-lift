@@ -313,7 +313,17 @@ document.addEventListener('DOMContentLoaded', () => {
         saveTrigger.onclick = handleOpenPopup;
         saveTrigger.ontouchend = handleOpenPopup;
     }
-
+  // 1.1. Cho phép gõ chữ vào ô Input (Rất quan trọng cho Android)  
+ const nameInput = document.getElementById('player-name');
+    if (nameInput) {
+        nameInput.addEventListener('touchstart', (e) => {
+            e.stopPropagation(); // Không cho sự kiện chạm vào ô nhập liệu làm máy bay bay
+        }, { passive: true });
+        
+        nameInput.onclick = (e) => {
+            e.focus(); // Ép focus khi nhấn trên mobile
+        };
+    }
     // 2. Xử lý nút Gửi điểm bên TRONG Popup
     const submitBtn = document.getElementById('submit-score-btn');
     if (submitBtn) {
@@ -325,18 +335,22 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.onclick = handleSubmit;
         submitBtn.ontouchend = handleSubmit;
     }
+// Nút HỦY popup
+const cancelBtn = document.getElementById('cancel-score-btn');
 
-    // 3. Cho phép gõ chữ vào ô Input (Rất quan trọng cho Android)
-    const nameInput = document.getElementById('player-name');
-    if (nameInput) {
-        nameInput.addEventListener('touchstart', (e) => {
-            e.stopPropagation(); // Không cho sự kiện chạm vào ô nhập liệu làm máy bay bay
-        }, { passive: true });
-        
-        nameInput.onclick = (e) => {
-            e.focus(); // Ép focus khi nhấn trên mobile
-        };
-    }
+if (cancelBtn) {
+
+    const handleCancel = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        window.closeScorePopup();
+    };
+
+    cancelBtn.onclick = handleCancel;
+    cancelBtn.ontouchend = handleCancel;
+}
+       
 });
 //]]>
 </script>
