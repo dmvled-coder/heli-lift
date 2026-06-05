@@ -32,7 +32,8 @@
         .btn-hover:active { transform: scale(0.92); filter: brightness(1.2); }
         * { -webkit-tap-highlight-color: transparent; }
 
-      #score-popup {
+    /* Khung nền đen bao quanh popup - ĐÃ CẬP NHẬT */
+#score-popup {
     display: none; 
     position: fixed; 
     inset: 0 !important;
@@ -40,16 +41,54 @@
     z-index: 2147483647 !important; 
     justify-content: center; 
     align-items: center;
-    /* Quan trọng: Cho phép mọi tương tác chuột/chạm */
     pointer-events: auto !important; 
     touch-action: auto !important;
+    overflow-y: auto; /* Cho phép cuộn toàn bộ popup nếu màn hình bị bàn phím che */
+    padding: 10px;
+}
+
+/* Hộp thoại chứa nội dung nhập tên */
+#score-popup > div {
+    background: #1e293b; 
+    padding: 15px 25px; /* Giảm padding một chút cho gọn */
+    border-radius: 20px; 
+    border: 2px solid #facc15; 
+    width: 100%; 
+    max-width: 300px; 
+    text-align: center; 
+    box-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
+    margin: auto; /* Giữ hộp thoại luôn nằm giữa vùng cuộn */
 }
 
 /* Ép các thành phần bên trong popup phải nhận tương tác */
 #score-popup *, #player-name, #cancel-score-btn, #submit-score-btn {
     pointer-events: auto !important;
-    -webkit-user-select: text !important; /* Cho phép chọn văn bản/nhập liệu trên iOS */
+    -webkit-user-select: text !important;
     user-select: text !important;
+}
+
+/* 🔥 ĐẶC BIỆT DÀNH CHO MÀN HÌNH NGANG THẤP (KHI BÀN PHÍM HIỆN LÊN) */
+@media screen and (max-height: 280px) {
+    #score-popup > div {
+        padding: 10px 20px;
+    }
+    #score-popup h3 {
+        margin: 2px 0 !important;
+        font-size: 16px;
+    }
+    #score-popup p {
+        margin-bottom: 5px !important;
+        font-size: 12px;
+    }
+    #score-popup input {
+        padding: 8px !important;
+        margin-bottom: 10px !important;
+        font-size: 14px;
+    }
+    #score-popup button {
+        padding: 8px !important;
+        font-size: 12px;
+    }
 }
   /* CHÈN THÊM: Lớp phủ cảnh báo xoay màn hình (Landscape)     */
    #orientation-warning {
