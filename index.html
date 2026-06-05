@@ -32,71 +32,57 @@
         .btn-hover:active { transform: scale(0.92); filter: brightness(1.2); }
         * { -webkit-tap-highlight-color: transparent; }
 
-    /* Khung nền đen bao quanh popup - ĐÃ CẬP NHẬT */
-#score-popup {
-    display: none; 
-    position: fixed; 
-    inset: 0 !important;
-    background: rgba(0,0,0,0.9); 
-    z-index: 2147483647 !important; 
-    justify-content: center; 
-    align-items: center;
-    pointer-events: auto !important; 
-    touch-action: auto !important;
-    overflow-y: auto; /* Cho phép cuộn toàn bộ popup nếu màn hình bị bàn phím che */
-    padding: 10px;
-}
+        /* Khung nền đen bao quanh popup - ĐÃ TỐI ƯU SẠCH */
+        #score-popup {
+            display: none; 
+            position: fixed; 
+            inset: 0 !important;
+            background: rgba(0,0,0,0.9) !important; 
+            z-index: 2147483647 !important; 
+            justify-content: center; 
+            align-items: center;
+            pointer-events: auto !important; 
+            touch-action: auto !important;
+            overflow-y: auto;
+            padding: 10px;
+        }
 
-/* Hộp thoại chứa nội dung nhập tên */
-#score-popup > div {
-    background: #1e293b; 
-    padding: 15px 25px; /* Giảm padding một chút cho gọn */
-    border-radius: 20px; 
-    border: 2px solid #facc15; 
-    width: 100%; 
-    max-width: 300px; 
-    text-align: center; 
-    box-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
-    margin: auto; /* Giữ hộp thoại luôn nằm giữa vùng cuộn */
-}
+        /* Hộp thoại chứa nội dung nhập tên */
+        #score-popup > div {
+            background: #1e293b; 
+            padding: 15px 25px;
+            border-radius: 20px; 
+            border: 2px solid #facc15; 
+            width: 100%; 
+            max-width: 300px; 
+            text-align: center; 
+            box-shadow: 0 0 20px rgba(250, 204, 21, 0.4);
+            margin: auto;
+        }
 
-/* Ép các thành phần bên trong popup phải nhận tương tác */
-#score-popup *, #player-name, #cancel-score-btn, #submit-score-btn {
-    pointer-events: auto !important;
-    -webkit-user-select: text !important;
-    user-select: text !important;
-}
+        /* Ép các thành phần bên trong popup phải nhận tương tác */
+        #score-popup *, #player-name, #cancel-score-btn, #submit-score-btn {
+            pointer-events: auto !important;
+            -webkit-user-select: text !important;
+            user-select: text !important;
+        }
 
-/* 🔥 ĐẶC BIỆT DÀNH CHO MÀN HÌNH NGANG THẤP (KHI BÀN PHÍM HIỆN LÊN) */
-@media screen and (max-height: 280px) {
-    #score-popup > div {
-        padding: 10px 20px;
-    }
-    #score-popup h3 {
-        margin: 2px 0 !important;
-        font-size: 16px;
-    }
-    #score-popup p {
-        margin-bottom: 5px !important;
-        font-size: 12px;
-    }
-    #score-popup input {
-        padding: 8px !important;
-        margin-bottom: 10px !important;
-        font-size: 14px;
-    }
-    #score-popup button {
-        padding: 8px !important;
-        font-size: 12px;
-    }
-}
-  /* CHÈN THÊM: Lớp phủ cảnh báo xoay màn hình (Landscape)     */
-   #orientation-warning {
+        /* ĐẶC BIỆT DÀNH CHO MÀN HÌNH NGANG THẤP (KHÔNG LO BÀN PHÍM CHE KHUẤT) */
+        @media screen and (max-height: 280px) {
+            #score-popup > div { padding: 10px 20px; }
+            #score-popup h3 { margin: 2px 0 !important; font-size: 16px; }
+            #score-popup p { margin-bottom: 5px !important; font-size: 12px; }
+            #score-popup input { padding: 8px !important; margin-bottom: 10px !important; font-size: 14px; }
+            #score-popup button { padding: 8px !important; font-size: 12px; }
+        }
+
+        /* Lớp phủ cảnh báo xoay màn hình (Landscape) */
+        #orientation-warning {
             display: none;
             position: fixed;
             inset: 0;
             background: #0f172a;
-            z-index: 9999999999 !important; /* Đảm bảo nổi lên trên cùng mạng */
+            z-index: 9999999999 !important;
             color: white;
             justify-content: center;
             align-items: center;
@@ -105,15 +91,8 @@
             padding: 20px;
         }
 
-        .warning-box {
-            animation: pulse 1.5s infinite;
-        }
-
-        .phone-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-        }
-
+        .warning-box { animation: pulse 1.5s infinite; }
+        .phone-icon { font-size: 60px; margin-bottom: 15px; }
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -122,15 +101,64 @@
 
         /* Khi màn hình dọc (Chiều cao > Chiều rộng): Hiện cảnh báo, ẩn game */
         @media screen and (orientation: portrait) {
-            #orientation-warning {
-                display: flex;
-            }
-            #game-wrapper-fullscreen {
-                display: none !important;
-            }
+            #orientation-warning { display: flex; }
+            #game-wrapper-fullscreen { display: none !important; }
+        }
+
+        /* Khung bảng xếp hạng bên phải - ĐÃ CẬP NHẬT */
+        #leaderboard-sidebar {
+            position: fixed;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 180px;
+            max-height: 70vh;
+            background: rgba(0, 0, 0, 0.5); /* Tăng độ trong suốt */
+            color: #fff;
+            border: none;                  /* Đã bỏ viền bao quanh */
+            border-radius: 10px;
+            padding: 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        .lb-title {
+            text-align: center;
+            font-weight: bold;
+            color: #ffcc00;
+            font-size: 14px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 5px;
+        }
+        #leaderboard-list { overflow-y: auto; flex-grow: 1; }
+        .lb-entry {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .lb-rank { color: #ffcc00; width: 20px; font-weight: bold; }
+        
+        /* Làm cho tên người chơi béo (đậm) lên */
+        .lb-name { 
+            flex-grow: 1; 
+            font-weight: bold;
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+            padding-right: 5px; 
+        }
+        .lb-score { color: #00ffcc; }
+
+        @media (max-width: 600px) {
+            #leaderboard-sidebar { display: none; }
         }
     </style>
- </head>
+</head>
 <body>
     
 <div id="orientation-warning">
@@ -149,7 +177,8 @@
 <div id='game-wrapper-fullscreen'>
     <div id='heli-touch'>
         <canvas id='skyGame'></canvas>
-        <div id="star-layer"></div> <div id='ui-layer' style='position: absolute; top: 10px; left: 0; color: white; pointer-events: none; z-index: 50; text-align: center; width: 100%;'>
+        <div id="star-layer"></div> 
+        <div id='ui-layer' style='position: absolute; top: 10px; left: 0; color: white; pointer-events: none; z-index: 50; text-align: center; width: 100%;'>
             <div style='font-size: 11px; opacity: 0.8; letter-spacing: 1px;'><span id='best-label'>KỶ LỤC</span>: <span id='best-val' style='color: #22c55e;'>0m</span></div>
             <div id='ingame-best-msg' style='display: none; color: #22c55e; font-weight: bold; font-size: 14px; margin-top: 5px; animation: blink 0.5s infinite;'></div>
             <div id='score-val' style='font-size: 28px; font-weight: 900; color: #facc15; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); line-height: 1.2;'>0m</div>
@@ -178,102 +207,22 @@
 
         <div id='over-screen' style='position: absolute; inset: 0; background: rgba(0,0,0,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 110; color: white;'>
             <h2 id='fail-title' style='color: #ef4444; margin-bottom: 5px;'>KẾT THÚC</h2>
-
-             <div id='final-score' style='font-size: 36px; font-weight: bold; margin-bottom: 10px; color: #facc15;'>0m</div>
+            <div id='final-score' style='font-size: 36px; font-weight: bold; margin-bottom: 10px; color: #facc15;'>0m</div>
             
             <div id="star-results" style="margin-bottom: 20px; display: flex; gap: 20px; font-size: 20px; background: rgba(255,255,255,0.1); padding: 10px 25px; border-radius: 15px;">
-    <div style="color: #ffffff;">★ <span id="count-white" style="color: white;">0</span></div>
-    <div style="color: #facc15;">★ <span id="count-yellow" style="color: white;">0</span></div>
-    <div style="color: #ef4444;">🌟 <span id="count-red" style="color: white;">0</span></div>
-</div>
+                <div style="color: #ffffff;">★ <span id="count-white" style="color: white;">0</span></div>
+                <div style="color: #facc15;">★ <span id="count-yellow" style="color: white;">0</span></div>
+                <div style="color: #ef4444;">🌟 <span id="count-red" style="color: white;">0</span></div>
+            </div>
 
- <div style='display: flex; gap: 15px;'>
-    <button id='save-score-trigger' class="btn-hover" style='padding: 12px 20px; background: #facc15; color: #000; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>LƯU ĐIỂM</button>
-    <button id='retry-btn' class="btn-hover" style='padding: 12px 30px; background: #22c55e; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>CHƠI LẠI</button>
-    <button id='exit-btn' class="btn-hover" style='padding: 12px 30px; background: #64748b; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>THOÁT</button>
-</div>
+            <div style='display: flex; gap: 15px;'>
+                <button id='save-score-trigger' class="btn-hover" style='padding: 12px 20px; background: #facc15; color: #000; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>LƯU ĐIỂM</button>
+                <button id='retry-btn' class="btn-hover" style='padding: 12px 30px; background: #22c55e; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>CHƠI LẠI</button>
+                <button id='exit-btn' class="btn-hover" style='padding: 12px 30px; background: #64748b; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>THOÁT</button>
+            </div>
         </div>
     </div>
 </div>
-
-<style>
-    /* Khung bảng xếp hạng bên phải - ĐÃ CẬP NHẬT */
-    #leaderboard-sidebar {
-        position: fixed;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 180px;
-        max-height: 70vh;
-        background: rgba(0, 0, 0, 0.5); /* Tăng độ trong suốt (giảm từ 0.8 xuống 0.5) */
-        color: #fff;
-        border: none;                  /* Đã bỏ viền bao quanh */
-        border-radius: 10px;
-        padding: 10px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        display: flex;
-        flex-direction: column;
-        z-index: 9999;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Thay đổ bóng vàng thành bóng đen dịu hơn */
-    }
-    .lb-title {
-        text-align: center;
-        font-weight: bold;
-        color: #ffcc00;
-        font-size: 14px;
-        margin-bottom: 10px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Chỉnh lại đường kẻ cho tiệp màu nền */
-        padding-bottom: 5px;
-    }
-    #leaderboard-list {
-        overflow-y: auto;
-        flex-grow: 1;
-    }
-    .lb-entry {
-        display: flex;
-        justify-content: space-between;
-        font-size: 11px;
-        padding: 5px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .lb-rank { color: #ffcc00; width: 20px; font-weight: bold; }
-    
-    /* Làm cho tên người chơi béo (đậm) lên */
-    .lb-name { 
-        flex-grow: 1; 
-        font-weight: bold; /* Thêm độ béo cho chữ */
-        white-space: nowrap; 
-        overflow: hidden; 
-        text-overflow: ellipsis; 
-        padding-right: 5px; 
-    }
-    .lb-score { color: #00ffcc; }
-
-    /* Ẩn trên màn hình nhỏ để không che game */
-    @media (max-width: 600px) {
-        #leaderboard-sidebar { display: none; }
-    }
-</style>
-
-
-<script>
-  /*  if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js").then((reg) => {
-
-    // 🔥 Khi có bản mới → tự reload app
-    reg.onupdatefound = () => {
-      const newWorker = reg.installing;
-      newWorker.onstatechange = () => {
-        if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-          // 👉 có update → reload luôn
-          window.location.reload();
-        }
-      };
-    };
-
-  });
-}   */ 
-</script>
 
 <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script>
@@ -299,15 +248,14 @@
     if(scoreDisplay) scoreDisplay.innerText = Math.floor(finalScore) + "m";
     
     if(nameInput) {
-        nameInput.disabled = false; // Mở khóa ô nhập
-        // Không xóa nameInput.value để người chơi không phải gõ lại tên nhiều lần
+        nameInput.disabled = false;
     }
     
     if(btn) {
-        btn.disabled = false; // Mở khóa nút
-        btn.innerText = "LƯU LẠI"; // Reset chữ trên nút
+        btn.disabled = false;
+        btn.innerText = "LƯU LẠI";
     }
-};
+  };
 
   window.closeScorePopup = function() {
     const popup = document.getElementById('score-popup');
@@ -329,7 +277,6 @@
     btn.disabled = true;
     btn.innerText = "ĐANG LƯU...";
 
-    // Gửi dữ liệu lên Firebase
     const newScoreRef = database.ref('leaderboard').push();
     newScoreRef.set({
         name: name,
@@ -337,7 +284,6 @@
         timestamp: Date.now()
     })
     .then(() => {
-        // Tính toán thứ hạng ngay lập tức
         database.ref('leaderboard').once('value', (snapshot) => {
             let allScores = [];
             snapshot.forEach((child) => { allScores.push(child.val().score); });
@@ -352,13 +298,11 @@
 
             btn.innerText = "ĐÃ LƯU #" + rank;
                         
-            // Tự động đóng popup sau 1 giây để về màn hình kết quả
-           setTimeout(() => {
-        window.closeScorePopup();
-        // Sau khi đóng, hãy reset lại chữ để lần sau mở lên không bị chữ "Đã lưu"
-        btn.disabled = false;
-        btn.innerText = "LƯU LẠI";
-    }, 1000);
+            setTimeout(() => {
+                window.closeScorePopup();
+                btn.disabled = false;
+                btn.innerText = "LƯU LẠI";
+            }, 1000);
             if (typeof loadLeaderboard === "function") loadLeaderboard();
         });
     })
@@ -396,68 +340,55 @@
 document.addEventListener('DOMContentLoaded', () => {
     loadLeaderboard();
     
-/* CHÈN THÊM: Ép xoay màn hình ngang khi nhấn "VÀO CHƠI"    */
-     const enterFsBtn = document.getElementById('enter-fs-btn');
+    // Ép xoay màn hình ngang khi nhấn "VÀO CHƠI"
+    const enterFsBtn = document.getElementById('enter-fs-btn');
     if (enterFsBtn) {
         const lockLandscape = () => {
-            // 1. Kích hoạt Toàn màn hình trước (Bắt buộc phải có Fullscreen thì API xoay mới chạy)
             const docElm = document.documentElement;
             if (docElm.requestFullscreen) docElm.requestFullscreen();
             else if (docElm.webkitRequestFullscreen) docElm.webkitRequestFullscreen();
             else if (docElm.msRequestFullscreen) docElm.msRequestFullscreen();
 
-            // 2. Gọi lệnh khóa màn hình ngang
             if (screen.orientation && screen.orientation.lock) {
                 screen.orientation.lock('landscape').catch((err) => {
                     console.log("Trình duyệt không hỗ trợ tự khóa xoay: ", err);
                 });
             }
         };
-
-        // Gán sự kiện cho cả click và touch để nhạy trên mọi thiết bị
         enterFsBtn.addEventListener('click', lockLandscape);
         enterFsBtn.addEventListener('touchend', lockLandscape);
     }
     
-    // 1. Xử lý nút mở Popup Lưu Điểm
+    // Xử lý nút mở Popup Lưu Điểm
     const saveTrigger = document.getElementById('save-score-trigger');
     if (saveTrigger) {
         const handleOpenPopup = (e) => {
-            e.preventDefault(); // Ngăn chặn sự kiện mặc định
-            e.stopPropagation(); // Ngăn sự kiện trôi xuống lớp Game bên dưới
+            e.preventDefault();
+            e.stopPropagation();
             window.showScorePopup();
         };
-        // Gán cả hai để chắc chắn chạy trên mọi thiết bị
-        saveTrigger.onclick = handleOpenPopup;
-        saveTrigger.ontouchend = handleOpenPopup;
+        saveTrigger.addEventListener('click', handleOpenPopup);
+        saveTrigger.addEventListener('touchend', handleOpenPopup);
     }
-  // 3. Fix input mobile Android/iPhone
-const nameInput = document.getElementById('player-name');
 
-if (nameInput) {
+    // Fix Input mượt mà trên Mobile Android/iOS
+    const nameInput = document.getElementById('player-name');
+    if (nameInput) {
+        ['touchstart', 'touchend', 'mousedown', 'mouseup', 'click'].forEach(evt => {
+            nameInput.addEventListener(evt, (e) => {
+                e.stopPropagation(); // Chặn trôi click làm kích hoạt đơ chạm dưới game
+            }, { passive: true });
+        });
 
-    // Chặn game nhận touch
-    ['touchstart', 'touchend', 'mousedown', 'mouseup', 'click'].forEach(evt => {
-        nameInput.addEventListener(evt, (e) => {
-            e.stopPropagation();
-        }, { passive: true });
-    });
+        // Đẩy khung gõ lên tầm nhìn rõ khi focus trên màn hình ngang thấp
+        nameInput.addEventListener('focus', () => {
+            setTimeout(() => {
+                nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
+    }
 
-    // Android Chrome cần focus bằng touchend
-    nameInput.addEventListener('touchend', (e) => {
-        e.preventDefault();
-
-        nameInput.focus();
-
-        // ép hiện keyboard Android
-        setTimeout(() => {
-            nameInput.click();
-        }, 50);
-
-    }, { passive: false });
-
-}
-    // 2. Xử lý nút Gửi điểm bên TRONG Popup
+    // Xử lý nút LƯU LẠI trong Popup (Sửa triệt để lỗi kẹt bàn phím)
     const submitBtn = document.getElementById('submit-score-btn');
     if (submitBtn) {
         const handleSubmit = (e) => {
@@ -465,24 +396,21 @@ if (nameInput) {
             e.stopPropagation();
             window.submitScore();
         };
-        submitBtn.onclick = handleSubmit;
-        submitBtn.ontouchend = handleSubmit;
+        submitBtn.addEventListener('click', handleSubmit);
+        submitBtn.addEventListener('touchend', handleSubmit, { passive: false });
     }
-// Nút HỦY popup
-const cancelBtn = document.getElementById('cancel-score-btn');
 
-if (cancelBtn) {
-
-    const handleCancel = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        window.closeScorePopup();
-    };
-
-    cancelBtn.onclick = handleCancel;
-    cancelBtn.ontouchend = handleCancel;
-}
+    // Xử lý nút HỦY trong Popup
+    const cancelBtn = document.getElementById('cancel-score-btn');
+    if (cancelBtn) {
+        const handleCancel = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.closeScorePopup();
+        };
+        cancelBtn.addEventListener('click', handleCancel);
+        cancelBtn.addEventListener('touchend', handleCancel, { passive: false });
+    }
        
 });
 //]]>
@@ -490,13 +418,13 @@ if (cancelBtn) {
     
 <script src="game.js"></script>    
     
-<div id="score-popup" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999999; justify-content: center; align-items: center; padding: 20px;">
-    <div style="background: #1e293b; padding: 25px; border-radius: 20px; border: 2px solid #facc15; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 0 20px rgba(250, 204, 21, 0.4);">
+<div id="score-popup">
+    <div>
         <h3 style="color: #facc15; margin-top: 0;">LƯU KỶ LỤC</h3>
         <p style="color: white; font-size: 14px; margin-bottom: 15px;">Bạn đạt được: <span id="popup-score-text" style="color: #22c55e; font-weight: bold;">0m</span></p>
         
         <input id="player-name" maxlength="15" placeholder="Nhập tên của bạn..." type="text" 
-               style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: none; font-size: 16px; outline: none; box-sizing: border-box; -webkit-user-select: text; user-select: text;">
+               style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: none; font-size: 16px; outline: none; box-sizing: border-box;">
         
         <div style="display: flex; gap: 10px;">
             <button id="cancel-score-btn" style="flex: 1; padding: 12px; background: #64748b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">HỦY</button>
