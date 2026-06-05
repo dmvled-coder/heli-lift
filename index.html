@@ -158,7 +158,7 @@
 </div>
 
 <style>
-    /* Khung bảng xếp hạng bên phải */
+    /* Khung bảng xếp hạng bên phải - ĐÃ CẬP NHẬT */
     #leaderboard-sidebar {
         position: fixed;
         right: 10px;
@@ -166,16 +166,16 @@
         transform: translateY(-50%);
         width: 180px;
         max-height: 70vh;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.5); /* Tăng độ trong suốt (giảm từ 0.8 xuống 0.5) */
         color: #fff;
-        border: 2px solid #ffcc00;
+        border: none;                  /* Đã bỏ viền bao quanh */
         border-radius: 10px;
         padding: 10px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         display: flex;
         flex-direction: column;
         z-index: 9999;
-        box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Thay đổ bóng vàng thành bóng đen dịu hơn */
     }
     .lb-title {
         text-align: center;
@@ -183,7 +183,7 @@
         color: #ffcc00;
         font-size: 14px;
         margin-bottom: 10px;
-        border-bottom: 1px solid #444;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Chỉnh lại đường kẻ cho tiệp màu nền */
         padding-bottom: 5px;
     }
     #leaderboard-list {
@@ -198,10 +198,18 @@
         border-bottom: 1px solid rgba(255,255,255,0.05);
     }
     .lb-rank { color: #ffcc00; width: 20px; font-weight: bold; }
-    .lb-name { flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 5px; }
+    
+    /* Làm cho tên người chơi béo (đậm) lên */
+    .lb-name { 
+        flex-grow: 1; 
+        font-weight: bold; /* Thêm độ béo cho chữ */
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        padding-right: 5px; 
+    }
     .lb-score { color: #00ffcc; }
 
-  
     /* Ẩn trên màn hình nhỏ để không che game */
     @media (max-width: 600px) {
         #leaderboard-sidebar { display: none; }
