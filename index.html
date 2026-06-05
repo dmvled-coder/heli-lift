@@ -51,9 +51,57 @@
     -webkit-user-select: text !important; /* Cho phép chọn văn bản/nhập liệu trên iOS */
     user-select: text !important;
 }
+  /* CHÈN THÊM: Lớp phủ cảnh báo xoay màn hình (Landscape)     */
+   #orientation-warning {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #0f172a;
+            z-index: 9999999999 !important; /* Đảm bảo nổi lên trên cùng mạng */
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        .warning-box {
+            animation: pulse 1.5s infinite;
+        }
+
+        .phone-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Khi màn hình dọc (Chiều cao > Chiều rộng): Hiện cảnh báo, ẩn game */
+        @media screen and (orientation: portrait) {
+            #orientation-warning {
+                display: flex;
+            }
+            #game-wrapper-fullscreen {
+                display: none !important;
+            }
+        }
     </style>
  </head>
 <body>
+    
+<div id="orientation-warning">
+    <div class="warning-box">
+        <div class="phone-icon">🔄</div>
+        <p style="font-size: 18px; font-weight: bold; margin: 0 0 10px 0;">VUI LÒNG XOAY NGANG MÀN HÌNH</p>
+        <p style="font-size: 14px; opacity: 0.7; margin: 0;">Để có trải nghiệm game tốt nhất</p>
+    </div>
+</div>
+    
 <div id='leaderboard-sidebar'>
     <div class='lb-title'>TOP 100 THẾ GIỚI</div>
     <div id='leaderboard-list'>Đang tải...</div>
@@ -300,7 +348,30 @@
   // 5. Khởi tạo sự kiện
 document.addEventListener('DOMContentLoaded', () => {
     loadLeaderboard();
+    
+/* CHÈN THÊM: Ép xoay màn hình ngang khi nhấn "VÀO CHƠI"    */
+     const enterFsBtn = document.getElementById('enter-fs-btn');
+    if (enterFsBtn) {
+        const lockLandscape = () => {
+            // 1. Kích hoạt Toàn màn hình trước (Bắt buộc phải có Fullscreen thì API xoay mới chạy)
+            const docElm = document.documentElement;
+            if (docElm.requestFullscreen) docElm.requestFullscreen();
+            else if (docElm.webkitRequestFullscreen) docElm.webkitRequestFullscreen();
+            else if (docElm.msRequestFullscreen) docElm.msRequestFullscreen();
 
+            // 2. Gọi lệnh khóa màn hình ngang
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').catch((err) => {
+                    console.log("Trình duyệt không hỗ trợ tự khóa xoay: ", err);
+                });
+            }
+        };
+
+        // Gán sự kiện cho cả click và touch để nhạy trên mọi thiết bị
+        enterFsBtn.addEventListener('click', lockLandscape);
+        enterFsBtn.addEventListener('touchend', lockLandscape);
+    }
+    
     // 1. Xử lý nút mở Popup Lưu Điểm
     const saveTrigger = document.getElementById('save-score-trigger');
     if (saveTrigger) {
