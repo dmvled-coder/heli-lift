@@ -245,7 +245,7 @@
     const btn = document.getElementById('submit-score-btn');
     
     if(popup) popup.style.display = 'flex';
-    if(scoreDisplay) scoreDisplay.innerText = Math.floor(finalScore) + "km";
+    if(scoreDisplay) scoreDisplay.innerText = finalScore.toFixed(1) + "km";
     
     if(nameInput) {
         nameInput.disabled = false;
