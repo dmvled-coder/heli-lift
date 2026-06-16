@@ -151,7 +151,7 @@
             plane.v *= 0.98; plane.y += plane.v;
             if (plane.y < 5) { plane.y = 5; plane.v = 0; }
             score += 0.08; rotorAngle += 0.45;
-            window.globalScore = score; // Thêm dòng này để đẩy điểm ra ngoài
+            window.globalScore = parseFloat((score / 10).toFixed(1)); // Thêm dòng này để đẩy điểm ra ngoài
             
             // Logic tính streak sao
             const inRadar = (currentRadarY > 0 && plane.y < currentRadarY);
@@ -248,8 +248,8 @@
             terrains.shift(); terrains.push(createTerrain(last.startX + last.width));
         }
 
-        scoreVal.innerText = Math.floor(score) + "m";
-        bestVal.innerText = Math.floor(bestScore) + "m";
+        scoreVal.innerText = (score / 10).toFixed(1) + "km";
+        bestVal.innerText = (bestScore / 10).toFixed(1) + "km";
         animationId = requestAnimationFrame(loop);
     }
 
@@ -273,7 +273,7 @@
         sndExplode.currentTime = 0; sndExplode.play().catch(() => {});
         if (score > bestScore) { bestScore = score; localStorage.setItem('planeBest', Math.floor(bestScore)); }
         
-        document.getElementById('final-score').innerText = Math.floor(score) + "m";
+        document.getElementById('final-score').innerText = (score / 10).toFixed(1) + "km";
         // Cập nhật số sao vào bảng kết quả
         document.getElementById('count-white').innerText = starsCount.white;
         document.getElementById('count-yellow').innerText = starsCount.yellow;
