@@ -245,7 +245,7 @@
     const btn = document.getElementById('submit-score-btn');
     
     if(popup) popup.style.display = 'flex';
-    if(scoreDisplay) scoreDisplay.innerText = Math.floor(finalScore) + "m";
+    if(scoreDisplay) scoreDisplay.innerText = Math.floor(finalScore) + "km";
     
     if(nameInput) {
         nameInput.disabled = false;
@@ -328,7 +328,7 @@
                 <div class='lb-entry'>
                     <span class='lb-rank'>${index + 1}.</span>
                     <span class='lb-name'>${displayName}</span>
-                    <span class='lb-score'>${Math.floor(entry.score)}m</span>
+                    <span class='lb-score'>${Math.floor(entry.score)}km</span>
                 </div>`;
         });
         const listDiv = document.getElementById('leaderboard-list');
