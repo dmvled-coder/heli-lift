@@ -414,7 +414,25 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelBtn.addEventListener('click', handleCancel);
         cancelBtn.addEventListener('touchend', handleCancel, { passive: false });
     }
-       
+    
+    // Tap ra ngoài popup => tắt bàn phím
+document.addEventListener('touchstart', (e) => {
+
+    const popup = document.getElementById('score-popup');
+    const input = document.getElementById('player-name');
+
+    if (!popup || popup.style.display !== 'flex') return;
+
+    // Nếu click ngoài box popup
+    if (!e.target.closest('#score-popup > div')) {
+
+        if (input) {
+            input.blur();
+        }
+    }
+
+}, { passive: true });   
+    
 });
 //]]>
 </script>
