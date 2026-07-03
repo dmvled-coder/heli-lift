@@ -33,19 +33,22 @@
         * { -webkit-tap-highlight-color: transparent; }
 
         /* Khung nền đen bao quanh popup - ĐÃ TỐI ƯU SẠCH */
-        #score-popup {
-            display: none; 
-            position: fixed; 
-            inset: 0 !important;
-            background: rgba(0,0,0,0.9) !important; 
-            z-index: 2147483647 !important; 
-            justify-content: center; 
-            align-items: center;
-            pointer-events: auto !important; 
-            touch-action: auto !important;
-            overflow-y: auto;
-            padding: 10px;
-        }
+ #score-popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 2147483647;
+    justify-content: center;
+    /* QUAN TRỌNG */
+    align-items: flex-start;
+    overflow-y: auto;
+    padding:
+        max(20px, env(safe-area-inset-top))
+        10px
+        max(20px, env(safe-area-inset-bottom));
+    box-sizing: border-box;
+}
 
         /* Hộp thoại chứa nội dung nhập tên */
         #score-popup > div {
