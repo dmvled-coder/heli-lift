@@ -167,14 +167,14 @@
 <div id="orientation-warning">
     <div class="warning-box">
         <div class="phone-icon">🔄</div>
-        <p style="font-size: 18px; font-weight: bold; margin: 0 0 10px 0;">VUI LÒNG XOAY NGANG MÀN HÌNH</p>
-        <p style="font-size: 14px; opacity: 0.7; margin: 0;">Để có trải nghiệm game tốt nhất</p>
+        <p style="font-size: 18px; font-weight: bold; margin: 0 0 10px 0;">ROTATE YOUR SCREEN TO LANDSCAPE</p>
+        <p style="font-size: 14px; opacity: 0.7; margin: 0;">For the best gaming experience</p>
     </div>
 </div>
     
 <div id='leaderboard-sidebar'>
-    <div class='lb-title'>TOP 100 THẾ GIỚI</div>
-    <div id='leaderboard-list'>Đang tải...</div>
+    <div class='lb-title'> WORLD's TOP 100</div>
+    <div id='leaderboard-list'>loading...</div>
 </div>  
     
 <div id='game-wrapper-fullscreen'>
@@ -190,7 +190,7 @@
 
         <div id='entry-screen' style='position: absolute; inset: 0; background: #0f172a; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; color: white;'>
            <img src="Chinook-home.png" alt="Logo Máy Bay" style="width: 220px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.5));"/>
-            <h2 id='main-title' style='color: #facc15; margin-bottom: 10px; letter-spacing: 2px; text-align:center;'>HELI TOUCH VER 16</h2>
+            <h2 id='main-title' style='color: #facc15; margin-bottom: 10px; letter-spacing: 2px; text-align:center;'>HELI TOUCH </h2>
             <div style='margin-bottom: 25px; display: flex; gap: 15px;'>
                 <div id='lang-vi' class="btn-hover" style='cursor: pointer; border-radius: 4px; overflow: hidden; border: 2px solid #3b82f6;'>
                     <img src='https://flagcdn.com/w80/vn.png' style='display: block; width: 45px; height: 30px; object-fit: cover; pointer-events: none;' alt='VN'/>
@@ -200,16 +200,15 @@
                 </div>
             </div>
             <button id='enter-fs-btn' class="btn-hover" style='padding: 18px 45px; font-size: 18px; cursor: pointer; background: #3b82f6; color: white; border: none; border-radius: 50px; font-weight: bold;'>VÀO CHƠI</button>
-            <p id='rotate-hint' style='margin-top: 15px; font-size: 12px; opacity: 0.6;'>Nên xoay ngang điện thoại để trải nghiệm tốt nhất</p>
-        </div>
+            </div>
 
         <div id='start-screen' style='position: absolute; inset: 0; background: rgba(0,0,0,0.7); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 90; color: white;'>
             <button id='ready-btn' class="btn-hover" style='padding: 20px 60px; font-size: 24px; cursor: pointer; background: #22c55e; color: white; border-radius: 50px; border:none; font-weight: bold;'>BẮT ĐẦU NGAY</button>
-            <p id='fly-hint' style='margin-top: 10px;'>Chạm và giữ để bay lên!</p>
+            <p id='fly-hint' style='margin-top: 10px;'>Touch and hold to fly up</p>
         </div>
 
         <div id='over-screen' style='position: absolute; inset: 0; background: rgba(0,0,0,0.9); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 110; color: white;'>
-            <h2 id='fail-title' style='color: #ef4444; margin-bottom: 5px;'>KẾT THÚC</h2>
+            <h2 id='fail-title' style='color: #ef4444; margin-bottom: 5px;'>GAME OVER</h2>
             <div id='final-score' style='font-size: 36px; font-weight: bold; margin-bottom: 10px; color: #facc15;'>0m</div>
             
             <div id="star-results" style="margin-bottom: 20px; display: flex; gap: 20px; font-size: 20px; background: rgba(255,255,255,0.1); padding: 10px 25px; border-radius: 15px;">
@@ -219,9 +218,9 @@
             </div>
 
             <div style='display: flex; gap: 15px;'>
-                <button id='save-score-trigger' class="btn-hover" style='padding: 12px 20px; background: #facc15; color: #000; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>LƯU ĐIỂM</button>
-                <button id='retry-btn' class="btn-hover" style='padding: 12px 30px; background: #22c55e; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>CHƠI LẠI</button>
-                <button id='exit-btn' class="btn-hover" style='padding: 12px 30px; background: #64748b; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>THOÁT</button>
+                <button id='save-score-trigger' class="btn-hover" style='padding: 12px 20px; background: #facc15; color: #000; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>SAVE SCORE</button>
+                <button id='retry-btn' class="btn-hover" style='padding: 12px 30px; background: #22c55e; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>PLAY AGAIN</button>
+                <button id='exit-btn' class="btn-hover" style='padding: 12px 30px; background: #64748b; color: white; border:none; border-radius: 8px; font-weight:bold; cursor:pointer;'>EXIT</button>
             </div>
         </div>
     </div>
@@ -256,7 +255,7 @@
     
     if(btn) {
         btn.disabled = false;
-        btn.innerText = "LƯU LẠI";
+        btn.innerText = "SAVE";
     }
   };
 
@@ -273,12 +272,12 @@
     const name = nameInput.value.trim();
     
     if (!name) {
-        alert("Bạn chưa nhập tên!");
+        alert("You haven't entered a name!");
         return;
     }
 
     btn.disabled = true;
-    btn.innerText = "ĐANG LƯU...";
+    btn.innerText = "Saving...";
 
     const newScoreRef = database.ref('leaderboard').push();
     newScoreRef.set({
@@ -294,25 +293,25 @@
             const rank = allScores.indexOf(Math.floor(finalScore)) + 1;
 
             if (rank <= 100) {
-                alert(`TUYỆT VỜI! Bạn đứng thứ ${rank} thế giới!`);
+                alert(`GRATE! You are ranked ${rank} on the world!`);
             } else {
-                alert(`Bạn xếp hạng thứ ${rank}. Cố gắng lọt Top 100 nhé!`);
+                alert(`You're ranked ${rank}. Keep trying to get into the top 100!`);
             }
 
-            btn.innerText = "ĐÃ LƯU #" + rank;
+            btn.innerText = "Saved successfully #" + rank;
                         
             setTimeout(() => {
                 window.closeScorePopup();
                 btn.disabled = false;
-                btn.innerText = "LƯU LẠI";
+                btn.innerText = "SAVE";
             }, 1000);
             if (typeof loadLeaderboard === "function") loadLeaderboard();
         });
     })
     .catch((err) => {
-        alert("Lỗi: " + err.message);
+        alert("false: " + err.message);
         btn.disabled = false;
-        btn.innerText = "THỬ LẠI";
+        btn.innerText = "TRY AGAIN";
     });
   };
 
@@ -441,15 +440,15 @@ document.addEventListener('touchstart', (e) => {
     
 <div id="score-popup">
     <div>
-        <h3 style="color: #facc15; margin-top: 0;">LƯU KỶ LỤC</h3>
-        <p style="color: white; font-size: 14px; margin-bottom: 15px;">Bạn đạt được: <span id="popup-score-text" style="color: #22c55e; font-weight: bold;">0m</span></p>
+        <h3 style="color: #facc15; margin-top: 0;">YOUR NEW RECORD</h3>
+        <p style="color: white; font-size: 14px; margin-bottom: 15px;">your score: <span id="popup-score-text" style="color: #22c55e; font-weight: bold;">0m</span></p>
         
-        <input id="player-name" maxlength="15" placeholder="Nhập tên của bạn..." type="text" 
+        <input id="player-name" maxlength="15" placeholder="Input your name..." type="text" 
                style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: none; font-size: 16px; outline: none; box-sizing: border-box;">
         
         <div style="display: flex; gap: 10px;">
-            <button id="cancel-score-btn" style="flex: 1; padding: 12px; background: #64748b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">HỦY</button>
-            <button id="submit-score-btn" style="flex: 1; padding: 12px; background: #facc15; color: #0f172a; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">LƯU LẠI</button>
+            <button id="cancel-score-btn" style="flex: 1; padding: 12px; background: #64748b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">CANCEL</button>
+            <button id="submit-score-btn" style="flex: 1; padding: 12px; background: #facc15; color: #0f172a; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">SAVE</button>
         </div>
     </div>
 </div>   
