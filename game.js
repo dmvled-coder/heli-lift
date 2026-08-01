@@ -75,7 +75,7 @@
     let starsCount = { white: 0, yellow: 0, red: 0 };
     let currentStarColor = "";
 
-    const cfg = { g: 0.25, lift: -0.55, speed: 8.5, penalty: 0.0, unitScale: 450, gap: 160 };
+    const cfg = { g: 0.25, lift: -0.55, speed: 8.5, penalty: 0.0, unitScale: 450, gap: 140 };
 
     function showStarPopup(emoji) {
         const div = document.createElement('div');
@@ -87,7 +87,7 @@
 
     function forceResize() {
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        cfg.gap = canvas.width > 800 ? 120 : 160;
+        cfg.gap = canvas.width > 800 ? 120 : 140;
         plane.w = canvas.width > 800 ? 90 : 70;
         plane.h = canvas.width > 800 ? 40 : 30;
         plane.x = canvas.width / 5;
