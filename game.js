@@ -1,6 +1,6 @@
 (function() {
     const i18n = {
-        vi: { title: "HELI TOUCH", enterFs: "VÀO CHƠI", rotateHint: "Nên xoay ngang điện thoại để trải nghiệm tốt nhất", ready: "BẮT ĐẦU NGAY", flyHint: "Chạm và giữ để bay lên!", bestLabel: "KỶ LỤC", warning: "⚠️ PHÁT HIỆN RADAR!", failTitle: "KẾT THÚC", retry: "CHƠI LẠI", exit: "THOÁT", newRecord: "🎉 KỶ LỤC MỚI! 🎉" },
+        vi: { title: "HELI TOUCH", enterFs: "VÀO CHƠI", rotateHint: "Nên xoay ngang điện thoại để trải nghiệm tốt nhất", ready: "BẮT ĐẦU NGAY", flyHint: "Chạm và giữ để bay lên!", bestLabel: "BEST SCORE", warning: "⚠️ PHÁT HIỆN RADAR!", failTitle: "KẾT THÚC", retry: "CHƠI LẠI", exit: "THOÁT", newRecord: "🎉 KỶ LỤC MỚI! 🎉" },
         en: { title: "HELI TOUCH", enterFs: "ENTER GAME", rotateHint: "Rotate landscape for the best experience", ready: "START NOW", flyHint: "Tap and hold to fly up!", bestLabel: "BEST", warning: "⚠️ RADAR DETECTED!", failTitle: "GAME OVER", retry: "RETRY", exit: "EXIT", newRecord: "🎉 NEW BEST RECORD! 🎉" }
     };
 
