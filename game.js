@@ -280,6 +280,12 @@
         document.getElementById('count-red').innerText = starsCount.red;
         
         overScreen.style.display = 'flex';
+                
+    // 🟢 HỆN LẠI NÚT SAVE SCORE CHO LƯỢT CHƠI MỚI            
+    const saveTrigger = document.getElementById('save-score-trigger');
+    if (saveTrigger) {
+        saveTrigger.style.display = 'block'; // Hoặc 'block' tùy CSS của bạn
+    }
     }
 
     function setupButton(id, callback) {
