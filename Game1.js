@@ -94,7 +94,13 @@
             window.closeScorePopup();
             btn.disabled = false;
             btn.innerText = "SAVE";
-
+          
+// 🟢 ẨN NÚT "SAVE SCORE" Ở MÀN HÌNH GAME OVER ĐI
+        const saveTrigger = document.getElementById('save-score-trigger');
+        if (saveTrigger) {
+            saveTrigger.style.display = 'none';
+        }
+          
             window.showRankNotice(rankMessage);
 
             if (typeof loadLeaderboard === "function") loadLeaderboard();
