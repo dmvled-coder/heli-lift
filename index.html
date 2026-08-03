@@ -32,23 +32,22 @@
         .btn-hover:active { transform: scale(0.92); filter: brightness(1.2); }
         * { -webkit-tap-highlight-color: transparent; }
 
-        /* Khung nền đen bao quanh popup - ĐÃ TỐI ƯU SẠCH */
- #score-popup {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.9);
-    z-index: 2147483647;
-    justify-content: center;
-    /* QUAN TRỌNG */
-    align-items: flex-start;
-    overflow-y: auto;
-    padding:
-        max(20px, env(safe-area-inset-top))
-        10px
-        max(20px, env(safe-area-inset-bottom));
-    box-sizing: border-box;
-}
+        /* Khung nền đen bao quanh popup nhập điểm */
+        #score-popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 2147483647;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-y: auto;
+            padding:
+                max(20px, env(safe-area-inset-top))
+                10px
+                max(20px, env(safe-area-inset-bottom));
+            box-sizing: border-box;
+        }
 
         /* Hộp thoại chứa nội dung nhập tên */
         #score-popup > div {
@@ -70,7 +69,7 @@
             user-select: text !important;
         }
 
-        /* ĐẶC BIỆT DÀNH CHO MÀN HÌNH NGANG THẤP (KHÔNG LO BÀN PHÍM CHE KHUẤT) */
+        /* DÀNH CHO MÀN HÌNH NGANG THẤP */
         @media screen and (max-height: 280px) {
             #score-popup > div { padding: 10px 20px; }
             #score-popup h3 { margin: 2px 0 !important; font-size: 16px; }
@@ -79,7 +78,7 @@
             #score-popup button { padding: 8px !important; font-size: 12px; }
         }
 
-        /* Lớp phủ cảnh báo xoay màn hình (Landscape) */
+        /* Lớp phủ cảnh báo xoay màn hình */
         #orientation-warning {
             display: none;
             position: fixed;
@@ -102,13 +101,12 @@
             100% { transform: scale(1); }
         }
 
-        /* Khi màn hình dọc (Chiều cao > Chiều rộng): Hiện cảnh báo, ẩn game */
         @media screen and (orientation: portrait) {
             #orientation-warning { display: flex; }
             #game-wrapper-fullscreen { display: none !important; }
         }
 
-        /* Khung bảng xếp hạng bên phải - ĐÃ CẬP NHẬT */
+        /* Khung bảng xếp hạng bên phải */
         #leaderboard-sidebar {
             position: fixed;
             right: 10px;
@@ -116,9 +114,9 @@
             transform: translateY(-50%);
             width: 180px;
             max-height: 70vh;
-            background: rgba(0, 0, 0, 0.5); /* Tăng độ trong suốt */
+            background: rgba(0, 0, 0, 0.5);
             color: #fff;
-            border: none;                  /* Đã bỏ viền bao quanh */
+            border: none;
             border-radius: 10px;
             padding: 10px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -145,8 +143,6 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .lb-rank { color: #ffcc00; width: 20px; font-weight: bold; }
-        
-        /* Làm cho tên người chơi béo (đậm) lên */
         .lb-name { 
             flex-grow: 1; 
             font-weight: bold;
@@ -159,6 +155,12 @@
 
         @media (max-width: 600px) {
             #leaderboard-sidebar { display: none; }
+        }
+
+        /* Animation cho Popup Custom */
+        @keyframes popupScale {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>
@@ -200,7 +202,7 @@
                 </div>
             </div>
             <button id='enter-fs-btn' class="btn-hover" style='padding: 18px 45px; font-size: 18px; cursor: pointer; background: #3b82f6; color: white; border: none; border-radius: 50px; font-weight: bold;'>ENTER GAME</button>
-            </div>
+        </div>
 
         <div id='start-screen' style='position: absolute; inset: 0; background: rgba(0,0,0,0.7); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 90; color: white;'>
             <button id='ready-btn' class="btn-hover" style='padding: 20px 60px; font-size: 24px; cursor: pointer; background: #22c55e; color: white; border-radius: 50px; border:none; font-weight: bold;'>START</button>
@@ -226,6 +228,33 @@
     </div>
 </div>
 
+<!-- Popup Nhập Tên Lưu Điểm -->
+<div id="score-popup">
+    <div>
+        <h3 style="color: #facc15; margin-top: 0;">YOUR NEW RECORD</h3>
+        <p style="color: white; font-size: 14px; margin-bottom: 15px;">your score: <span id="popup-score-text" style="color: #22c55e; font-weight: bold;">0m</span></p>
+        
+        <input id="player-name" maxlength="15" placeholder="Input your name..." type="text" 
+               style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: none; font-size: 16px; outline: none; box-sizing: border-box;">
+        
+        <div style="display: flex; gap: 10px;">
+            <button id="cancel-score-btn" style="flex: 1; padding: 12px; background: #64748b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">CANCEL</button>
+            <button id="submit-score-btn" style="flex: 1; padding: 12px; background: #facc15; color: #0f172a; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">SAVE</button>
+        </div>
+    </div>
+</div>
+
+<!-- Popup Thông Báo Thứ Hạng Custom (Tự đóng sau 5s hoặc bấm Close) -->
+<div id="rank-notice-popup" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2147483648; justify-content: center; align-items: center; box-sizing: border-box;">
+    <div style="background: #1e293b; padding: 20px 30px; border-radius: 16px; border: 2px solid #22c55e; width: 90%; max-width: 320px; text-align: center; box-shadow: 0 0 25px rgba(34, 197, 94, 0.4); animation: popupScale 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.27);">
+        <div style="font-size: 40px; margin-bottom: 5px;">🏆</div>
+        <h3 style="color: #facc15; margin: 0 0 10px 0; font-size: 18px; text-transform: uppercase;">RECORD SAVED!</h3>
+        <p id="rank-notice-msg" style="color: #ffffff; font-size: 15px; line-height: 1.4; margin-bottom: 20px; font-weight: 500;">Calculating rank...</p>
+        
+        <button id="close-rank-notice-btn" style="width: 100%; padding: 12px; background: #22c55e; color: #0f172a; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; transition: transform 0.1s;">CLOSE</button>
+    </div>
+</div>
+
 <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database-compat.js"></script>
 
@@ -238,7 +267,31 @@
   firebase.initializeApp(firebaseConfig);
   const database = firebase.database();
 
-  // 2. Hàm mở/đóng Popup
+  let rankNoticeTimer = null;
+
+  // 2. Các Hàm Mở/Đóng Popup Thông Báo Custom
+  window.showRankNotice = function(message) {
+    const popup = document.getElementById('rank-notice-popup');
+    const msgEl = document.getElementById('rank-notice-msg');
+    
+    if (msgEl) msgEl.innerText = message;
+    if (popup) popup.style.display = 'flex';
+
+    if (rankNoticeTimer) clearTimeout(rankNoticeTimer);
+
+    // Tự động đóng sau 5 giây
+    rankNoticeTimer = setTimeout(() => {
+        window.closeRankNotice();
+    }, 5000);
+  };
+
+  window.closeRankNotice = function() {
+    const popup = document.getElementById('rank-notice-popup');
+    if (popup) popup.style.display = 'none';
+    if (rankNoticeTimer) clearTimeout(rankNoticeTimer);
+  };
+
+  // 3. Các Hàm Mở/Đóng Popup Nhập Tên
   window.showScorePopup = function() {
     const finalScore = window.globalScore || 0;
     const popup = document.getElementById('score-popup');
@@ -247,7 +300,7 @@
     const btn = document.getElementById('submit-score-btn');
     
     if(popup) popup.style.display = 'flex';
-    if(scoreDisplay) scoreDisplay.innerText = finalScore.toFixed(1) + "km";
+    if(scoreDisplay) scoreDisplay.innerText = Math.floor(finalScore) + "m";
     
     if(nameInput) {
         nameInput.disabled = false;
@@ -264,7 +317,7 @@
     if(popup) popup.style.display = 'none';
   };
 
-  // 3. Hàm gửi điểm chính thức
+  // 4. Hàm gửi điểm chính thức (Đã xóa hoàn toàn alert)
   window.submitScore = function() {
     const nameInput = document.getElementById('player-name');
     const btn = document.getElementById('submit-score-btn');
@@ -272,7 +325,7 @@
     const name = nameInput.value.trim();
     
     if (!name) {
-        alert("You haven't entered a name!");
+        window.showRankNotice("You haven't entered a name!");
         return;
     }
 
@@ -292,30 +345,31 @@
             allScores.sort((a, b) => b - a);
             const rank = allScores.indexOf(Math.floor(finalScore)) + 1;
 
+            let rankMessage = "";
             if (rank <= 100) {
-                alert(`GRATE! You are ranked ${rank} on the world!`);
+                rankMessage = `GREAT! You are ranked #${rank} in the world!`;
             } else {
-                alert(`You're ranked ${rank}. Keep trying to get into the top 100!`);
+                rankMessage = `You are ranked #${rank}. Keep trying to get into top 100!`;
             }
 
-            btn.innerText = "Saved successfully #" + rank;
-                        
-            setTimeout(() => {
-                window.closeScorePopup();
-                btn.disabled = false;
-                btn.innerText = "SAVE";
-            }, 1000);
+            window.closeScorePopup();
+            btn.disabled = false;
+            btn.innerText = "SAVE";
+
+            // Hiển thị popup thông báo custom thay thế alert
+            window.showRankNotice(rankMessage);
+
             if (typeof loadLeaderboard === "function") loadLeaderboard();
         });
     })
     .catch((err) => {
-        alert("false: " + err.message);
         btn.disabled = false;
         btn.innerText = "TRY AGAIN";
+        window.showRankNotice("Error: " + err.message);
     });
   };
 
-  // 4. Hàm load bảng xếp hạng Sidebar
+  // 5. Hàm load bảng xếp hạng Sidebar
   function loadLeaderboard() {
     const leaderboardRef = database.ref('leaderboard').orderByChild('score').limitToLast(100);
     leaderboardRef.on('value', (snapshot) => {
@@ -330,7 +384,7 @@
                 <div class='lb-entry'>
                     <span class='lb-rank'>${index + 1}.</span>
                     <span class='lb-name'>${displayName}</span>
-                    <span class='lb-score'>${Math.floor(entry.score)} km</span>
+                    <span class='lb-score'>${Math.floor(entry.score)} m</span>
                 </div>`;
         });
         const listDiv = document.getElementById('leaderboard-list');
@@ -338,7 +392,7 @@
     });
   }
 
-  // 5. Khởi tạo sự kiện
+  // 6. Khởi tạo sự kiện
 document.addEventListener('DOMContentLoaded', () => {
     loadLeaderboard();
     
@@ -373,16 +427,15 @@ document.addEventListener('DOMContentLoaded', () => {
         saveTrigger.addEventListener('touchend', handleOpenPopup);
     }
 
-    // Fix Input mượt mà trên Mobile Android/iOS
+    // Fix Input mượt mà trên Mobile
     const nameInput = document.getElementById('player-name');
     if (nameInput) {
         ['touchstart', 'touchend', 'mousedown', 'mouseup', 'click'].forEach(evt => {
             nameInput.addEventListener(evt, (e) => {
-                e.stopPropagation(); // Chặn trôi click làm kích hoạt đơ chạm dưới game
+                e.stopPropagation();
             }, { passive: true });
         });
 
-        // Đẩy khung gõ lên tầm nhìn rõ khi focus trên màn hình ngang thấp
         nameInput.addEventListener('focus', () => {
             setTimeout(() => {
                 nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -390,7 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Xử lý nút LƯU LẠI trong Popup (Sửa triệt để lỗi kẹt bàn phím)
+    // Xử lý nút LƯU LẠI trong Popup
     const submitBtn = document.getElementById('submit-score-btn');
     if (submitBtn) {
         const handleSubmit = (e) => {
@@ -413,44 +466,37 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelBtn.addEventListener('click', handleCancel);
         cancelBtn.addEventListener('touchend', handleCancel, { passive: false });
     }
-    
-    // Tap ra ngoài popup => tắt bàn phím
-document.addEventListener('touchstart', (e) => {
 
-    const popup = document.getElementById('score-popup');
-    const input = document.getElementById('player-name');
-
-    if (!popup || popup.style.display !== 'flex') return;
-
-    // Nếu click ngoài box popup
-    if (!e.target.closest('#score-popup > div')) {
-
-        if (input) {
-            input.blur();
-        }
+    // Xử lý nút CLOSE trong Popup Thông Báo Custom
+    const closeNoticeBtn = document.getElementById('close-rank-notice-btn');
+    if (closeNoticeBtn) {
+        const handleCloseNotice = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.closeRankNotice();
+        };
+        closeNoticeBtn.addEventListener('click', handleCloseNotice);
+        closeNoticeBtn.addEventListener('touchend', handleCloseNotice, { passive: false });
     }
+    
+    // Tap ra ngoài popup => ẩn bàn phím
+    document.addEventListener('touchstart', (e) => {
+        const popup = document.getElementById('score-popup');
+        const input = document.getElementById('player-name');
 
-}, { passive: true });   
+        if (!popup || popup.style.display !== 'flex') return;
+
+        if (!e.target.closest('#score-popup > div')) {
+            if (input) {
+                input.blur();
+            }
+        }
+    }, { passive: true });   
     
 });
 //]]>
 </script>
     
 <script src="game.js"></script>    
-    
-<div id="score-popup">
-    <div>
-        <h3 style="color: #facc15; margin-top: 0;">YOUR NEW RECORD</h3>
-        <p style="color: white; font-size: 14px; margin-bottom: 15px;">your score: <span id="popup-score-text" style="color: #22c55e; font-weight: bold;">0m</span></p>
-        
-        <input id="player-name" maxlength="15" placeholder="Input your name..." type="text" 
-               style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: none; font-size: 16px; outline: none; box-sizing: border-box;">
-        
-        <div style="display: flex; gap: 10px;">
-            <button id="cancel-score-btn" style="flex: 1; padding: 12px; background: #64748b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">CANCEL</button>
-            <button id="submit-score-btn" style="flex: 1; padding: 12px; background: #facc15; color: #0f172a; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">SAVE</button>
-        </div>
-    </div>
-</div>   
 </body>
 </html>
