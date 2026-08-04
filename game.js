@@ -43,8 +43,8 @@
     const bgImg = new Image(); bgImg.src = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiYSguR7m9c37lVC8puRqP1zNvDGn8uIwg4GiR6-Oq6EMjf7YkYMo_ti2xtCXEtU8XKUtaQgIlc1iijc01AoXjJAZqpIY8xFF3YQioSnxiy3_G-01pR091EeXQaeac3dFTYMgZt5ic5NQW1CLPsjZ5OUUEln7vsiY7FK3uFRtlziKQHS5flcWkTt2T2rPs/w640-h427/n%E1%BB%81n%205.jfif";
 
     const sndEngine = new Audio("Helicopter-sound-cut.mp3"); sndEngine.loop = true;
-    const sndExplode = new Audio("https://files.catbox.moe/jwfmi6.mp3");
-    const sndWarning = new Audio("https://files.catbox.moe/a7kk52.mp3"); sndWarning.loop = true;
+    const sndExplode = new Audio("endgame.mp3");
+    const sndWarning = new Audio("alarm-radar.mp3"); sndWarning.loop = true;
     const sndStar = new Audio("star-xuat-hien.mp3");
 
      function primeAudioIOS() {
