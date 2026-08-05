@@ -1,6 +1,6 @@
 {
-  "name": "Heli Touch Game",
-  "short_name": "HeliGame",
+  "name": "Heli Touch",
+  "short_name": "Heli-Touch",
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",
