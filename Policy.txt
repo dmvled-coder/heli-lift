@@ -1,0 +1,81 @@
+# Privacy Policy
+
+**Last updated: August 6, 2026**
+
+Welcome to **Heli Lift**.
+
+Your privacy is important to us. This Privacy Policy explains how Heli Lift ("we", "our", or "the Game") collects, uses, and protects your information.
+
+## 1. Information We Collect
+
+Heli Lift is designed to collect as little personal information as possible.
+
+The Game may collect:
+
+* Player nickname (only if you choose to enter one for the leaderboard).
+* High scores and game progress.
+* Basic device information required for the Game to function properly.
+
+We do **not** collect sensitive personal information such as:
+
+* Full name
+* Email address
+* Phone number
+* Home address
+* Payment information
+
+## 2. How We Use Information
+
+The information collected is used only to:
+
+* Save your game progress.
+* Display leaderboards.
+* Improve gameplay and user experience.
+* Maintain the stability and security of the Game.
+
+## 3. Local Storage
+
+The Game may store data locally on your device using browser storage or application storage. This data may include:
+
+* High scores
+* Game settings
+* Player preferences
+
+You can remove this data by clearing the application's data or uninstalling the Game.
+
+## 4. Third-Party Services
+
+The Game may use third-party services that may collect information according to their own privacy policies.
+
+Examples may include:
+
+* Google Play Services
+* Google Play Games (if enabled)
+* Google AdMob (if advertisements are added in the future)
+* Firebase Analytics (if enabled)
+
+Please refer to the respective privacy policies of those providers for more information.
+
+## 5. Children's Privacy
+
+Heli Lift does not knowingly collect personal information from children under the age of 13.
+
+If you believe that a child has provided personal information, please contact us so that we can remove it if necessary.
+
+## 6. Data Security
+
+We take reasonable measures to protect information stored by the Game. However, no method of electronic storage or transmission over the Internet can be guaranteed to be 100% secure.
+
+## 7. Changes to This Privacy Policy
+
+We may update this Privacy Policy from time to time.
+
+Any changes will be posted on this page, and the updated date will be revised accordingly.
+
+## 8. Contact Us
+
+If you have any questions about this Privacy Policy, please contact us:
+
+**Developer:** Hoang Manh
+
+**Email:** [hdmanh8012@gmail.com](mailto:hdmanh8012@gmail.com])
