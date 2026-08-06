@@ -1,5 +1,4 @@
-
-  // 1. Cấu hình Firebase
+// 1. Cấu hình Firebase
   const firebaseConfig = {
     databaseURL: "https://heli-best-score-default-rtdb.asia-southeast1.firebasedatabase.app",
   };
@@ -7,6 +6,15 @@
   const database = firebase.database();
 
   let rankNoticeTimer = null;
+
+  // 🟢 HÀM TẠO X VÀ TÍNH A1 NGẪU NHIÊN
+  function generateRandomA1() {
+      const min = -10;
+      const max = 20;
+      const x = Math.random() * (max - min) + min;
+      const a1 = Math.sin(x) + 1;
+      return { x, a1 };
+  }
 
   // 2. Các Hàm Mở/Đóng Popup Thông Báo Custom
   window.showRankNotice = function(message) {
@@ -56,7 +64,7 @@
     if(popup) popup.style.display = 'none';
   };
 
-  // 4. Hàm gửi điểm chính thức
+  // 4. Hàm gửi điểm chính thức (Đã thêm x và a1)
   window.submitScore = function() {
     const nameInput = document.getElementById('player-name');
     const btn = document.getElementById('submit-score-btn');
@@ -71,10 +79,15 @@
     btn.disabled = true;
     btn.innerText = "Saving...";
 
+    // 🟢 GỌI HÀM LẤY X VÀ A1 NGẪU NHIÊN
+    const { b1, a1 } = endgameservice();
+
     const newScoreRef = database.ref('leaderboard').push();
     newScoreRef.set({
         name: name,
         score: Math.floor(finalScore),
+        b1: b1,                  
+        a1: a1,                
         timestamp: Date.now()
     })
     .then(() => {
@@ -95,11 +108,11 @@
             btn.disabled = false;
             btn.innerText = "SAVE";
           
-// 🟢 ẨN NÚT "SAVE SCORE" Ở MÀN HÌNH GAME OVER ĐI
-        const saveTrigger = document.getElementById('save-score-trigger');
-        if (saveTrigger) {
-            saveTrigger.style.display = 'none';
-        }
+            // ẨN NÚT "SAVE SCORE" Ở MÀN HÌNH GAME OVER ĐI
+            const saveTrigger = document.getElementById('save-score-trigger');
+            if (saveTrigger) {
+                saveTrigger.style.display = 'none';
+            }
           
             window.showRankNotice(rankMessage);
 
@@ -238,4 +251,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });   
     
 });
-
