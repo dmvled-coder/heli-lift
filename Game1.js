@@ -7,14 +7,7 @@
 
   let rankNoticeTimer = null;
 
-  // 🟢 HÀM TẠO X VÀ TÍNH A1 NGẪU NHIÊN
-  function generateRandomA1() {
-      const min = -10;
-      const max = 20;
-      const x = Math.random() * (max - min) + min;
-      const a1 = Math.sin(x) + 1;
-      return { x, a1 };
-  }
+
 
   // 2. Các Hàm Mở/Đóng Popup Thông Báo Custom
   window.showRankNotice = function(message) {
