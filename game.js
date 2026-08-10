@@ -223,14 +223,15 @@
         if (isRunning) {
             let startX = Math.floor(plane.x), endX = Math.floor(plane.x + plane.w);
             for (let x = startX; x <= endX; x++) {
-                if ((heightMap[x] || canvas.height) < plane.y + plane.h - 5) { endGame(); return; }
+                if ((heightMap[x] || canvas.height) < plane.y + plane.h - 5) { endGame('mountain'); return; }
             }
-            if (plane.y > canvas.height + 40) endGame();
+            if (plane.y > canvas.height + 40) {
+    endGame('mountain');    return; }
 
             if (currentRadarY > 0 && plane.y < currentRadarY) {
                 document.getElementById('warning-text').style.display = 'block';
                 if (sndWarning.paused) sndWarning.play().catch(() => {});
-                if (++radarHits > 180) { endGame(); return; }
+                if (++radarHits > 180) { endGame('radar'); return; }
             } else {
                 document.getElementById('warning-text').style.display = 'none';
                 if (!sndWarning.paused) { sndWarning.pause(); sndWarning.currentTime = 0; }
@@ -265,28 +266,73 @@
         startScreen.style.display = 'flex'; overScreen.style.display = 'none';
         loop();
     }
-
-    function endGame() {
-        if (!isRunning) return; isRunning = false;
-        if (currentStarColor) starsCount[currentStarColor]++;
-        sndEngine.pause(); sndWarning.pause();
-        sndExplode.currentTime = 0; sndExplode.play().catch(() => {});
-        if (score > bestScore) { bestScore = score; localStorage.setItem('planeBest', Math.floor(bestScore)); }
-        
-        document.getElementById('final-score').innerText = (score / 10).toFixed(1) + "km";
-        // Cập nhật số sao vào bảng kết quả
-        document.getElementById('count-white').innerText = starsCount.white;
-        document.getElementById('count-yellow').innerText = starsCount.yellow;
-        document.getElementById('count-red').innerText = starsCount.red;
-        
-        overScreen.style.display = 'flex';
-                
-    // 🟢 HỆN LẠI NÚT SAVE SCORE CHO LƯỢT CHƠI MỚI            
-    const saveTrigger = document.getElementById('save-score-trigger');
-    if (saveTrigger) {
-        saveTrigger.style.display = 'block'; // Hoặc 'block' tùy CSS của bạn
+//hàm show nguyên nhân game over
+function showGameOverNotice(msg, callback) {
+    const notice = document.createElement('div');
+    notice.innerText = msg;
+    notice.style.position = 'fixed';
+    notice.style.top = '50%';
+    notice.style.left = '50%';
+    notice.style.transform = 'translate(-50%, -50%)';
+    notice.style.backgroundColor = 'rgba(15, 23, 42, 0.9)';
+    notice.style.color = '#ef4444';
+    notice.style.padding = '20px 35px';
+    notice.style.fontSize = '22px';
+    notice.style.fontWeight = 'bold';
+    notice.style.borderRadius = '12px';
+    notice.style.border = '2px solid #ef4444';
+    notice.style.boxShadow = '0 0 25px rgba(239, 68, 68, 0.5)';
+    notice.style.zIndex = '99999';
+    notice.style.textAlign = 'center';
+    notice.style.fontFamily = 'sans-serif';
+    
+    document.body.appendChild(notice);
+    
+    // Tự động xoá popup sau 3 giây và thực hiện hiển thị overScreen
+    setTimeout(() => {
+        notice.remove();
+        if (callback) callback();
+    }, 3000);
+}
+            
+    function endGame(reason = 'mountain') {
+    if (!isRunning) return; 
+    isRunning = false;
+    if (currentStarColor) starsCount[currentStarColor]++;
+    
+    sndEngine.pause(); 
+    sndWarning.pause();
+    sndExplode.currentTime = 0; 
+    sndExplode.play().catch(() => {});
+    
+    if (score > bestScore) { 
+        bestScore = score; 
+        localStorage.setItem('planeBest', Math.floor(bestScore)); 
     }
-    }
+    
+    document.getElementById('final-score').innerText = (score / 10).toFixed(1) + "km";
+    document.getElementById('count-white').innerText = starsCount.white;
+    document.getElementById('count-yellow').innerText = starsCount.yellow;
+    document.getElementById('count-red').innerText = starsCount.red;
+
+    // Xác định thông báo dựa trên lý do thua
+    const msgText = (reason === 'radar') 
+        ? "Enemy's radar detected you!" 
+        : "crash into moutain!";
+
+    // Ẩn dòng cảnh báo radar nếu đang bật
+    document.getElementById('warning-text').style.display = 'none';
+
+    // Gọi Popup 3s, sau khi popup tắt mới hiện bảng KẾT THÚC
+    showGameOverNotice(msgText, () => {
+        overScreen.style.display = 'flex';
+    //Hiện lại nút Save Score cho lượt chơi mới    
+        const saveTrigger = document.getElementById('save-score-trigger');
+        if (saveTrigger) {
+            saveTrigger.style.display = 'block';
+        }
+    });
+}
 
     function setupButton(id, callback) {
     const el = document.getElementById(id);
