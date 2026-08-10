@@ -318,7 +318,7 @@ function showGameOverNotice(msg, callback) {
     // Xác định thông báo dựa trên lý do thua
     const msgText = (reason === 'radar') 
         ? "Enemy's radar detected you!" 
-        : "crash into moutain!";
+        : "Crashed into a mountain!";
 
     // Ẩn dòng cảnh báo radar nếu đang bật
     document.getElementById('warning-text').style.display = 'none';
