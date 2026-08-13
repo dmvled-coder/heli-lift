@@ -87,7 +87,7 @@
 
     function forceResize() {
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        cfg.gap = canvas.width > 800 ? 180 : 100;
+        cfg.gap = canvas.width > 800 ? 100 : 105;
         plane.w = canvas.width > 800 ? 90 : 70;
         plane.h = canvas.width > 800 ? 40 : 30;
         plane.x = canvas.width / 5;
