@@ -75,7 +75,7 @@
     let starsCount = { white: 0, yellow: 0, red: 0 };
     let currentStarColor = "";
 
-    const cfg = { g: 0.25, lift: -0.55, speed: 8.5, penalty: 0.0, unitScale: 450, gap: 110 };
+    const cfg = { g: 0.25, lift: -0.55, speed: 8.5, penalty: 0.0, unitScale: 450, gap: 120 };
 
     function showStarPopup(emoji) {
         const div = document.createElement('div');
