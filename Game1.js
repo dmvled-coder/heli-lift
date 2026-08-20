@@ -199,6 +199,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const handleSubmit = (e) => {
             e.preventDefault();
             e.stopPropagation();
+
+       if (submitBtn.disabled || submitBtn.style.pointerEvents === 'none') {
+                return;
+            }
+
+            // 🛑 KHÓA NÚT NGAY LẬP TỨC TRÊN GIAO DIỆN
+            submitBtn.disabled = true;
+            submitBtn.style.pointerEvents = 'none'; // Vô hiệu hóa mọi cú chạm tiếp theo
+            submitBtn.style.opacity = '0.6';
+            submitBtn.innerText = "Saving...";   
+          
             window.submitScore();
         };
         submitBtn.addEventListener('click', handleSubmit);
