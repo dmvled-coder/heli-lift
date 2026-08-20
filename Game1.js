@@ -57,25 +57,37 @@
     if(popup) popup.style.display = 'none';
   };
 
-  // 4. Hàm gửi điểm chính thức (Đã thêm x và a1)
-  window.submitScore = function() {
-    const nameInput = document.getElementById('player-name');
+// Hàm khôi phục nút bấm về trạng thái bình thường
+function resetSaveButton() {
     const btn = document.getElementById('submit-score-btn');
+    if (btn) {
+        btn.disabled = false;
+        btn.style.pointerEvents = 'auto'; // Cho phép bấm lại
+        btn.style.opacity = '1';
+        btn.innerText = "SAVE";
+    }
+}
+
+window.submitScore = function() {
+    const nameInput = document.getElementById('player-name');
     let finalScore = window.globalScore || 0;
     const name = nameInput.value.trim();
     
     if (!name) {
         window.showRankNotice("You haven't entered a name!");
+        resetSaveButton(); // 🔓 Mở lại nút nếu chưa nhập tên
         return;
     }
 
-    btn.disabled = true;
-    btn.innerText = "Saving...";
+    if (!navigator.onLine) {
+        window.showRankNotice("No internet connection!");
+        resetSaveButton(); // 🔓 Mở lại nút nếu không có mạng
+        return;
+    }
 
-    // 🟢 GỌI HÀM LẤY X VÀ A1 NGẪU NHIÊN
     const { b1, a1 } = endgameservice();
-
     const newScoreRef = database.ref('leaderboard').push();
+
     newScoreRef.set({
         name: name,
         score: Math.floor(finalScore),
@@ -90,34 +102,27 @@
             allScores.sort((a, b) => b - a);
             const rank = allScores.indexOf(Math.floor(finalScore)) + 1;
 
-            let rankMessage = "";
-            if (rank <= 100) {
-                rankMessage = `GREAT! You are ranked #${rank} in the world!`;
-            } else {
-                rankMessage = `You are ranked #${rank}. Keep trying to get into top 100!`;
-            }
+            let rankMessage = (rank <= 100) 
+                ? `GREAT! You are ranked #${rank} in the world!`
+                : `You are ranked #${rank}. Keep trying to get into top 100!`;
 
             window.closeScorePopup();
-            btn.disabled = false;
-            btn.innerText = "SAVE";
+            resetSaveButton(); // 🔓 Mở lại cho lần sau
           
-            // ẨN NÚT "SAVE SCORE" Ở MÀN HÌNH GAME OVER ĐI
             const saveTrigger = document.getElementById('save-score-trigger');
-            if (saveTrigger) {
-                saveTrigger.style.display = 'none';
-            }
+            if (saveTrigger) saveTrigger.style.display = 'none';
           
             window.showRankNotice(rankMessage);
-
             if (typeof loadLeaderboard === "function") loadLeaderboard();
         });
     })
     .catch((err) => {
-        btn.disabled = false;
-        btn.innerText = "TRY AGAIN";
+        resetSaveButton(); // 🔓 Mở lại nếu lưu thất bại
+        const btn = document.getElementById('submit-score-btn');
+        if (btn) btn.innerText = "TRY AGAIN";
         window.showRankNotice("Error: " + err.message);
     });
-  };
+};
 
   // 5. Hàm load bảng xếp hạng Sidebar (đơn vị km)
   function loadLeaderboard() {
