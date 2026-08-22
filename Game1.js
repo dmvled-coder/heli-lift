@@ -163,8 +163,7 @@ window.submitScore = function() {
   }
 
   // 6. Khởi tạo sự kiện
-document.addEventListener('DOMContentLoaded', () => {
-    loadLeaderboard();
+
     
     // Ép xoay màn hình ngang khi nhấn "VÀO CHƠI"
 document.addEventListener('DOMContentLoaded', () => {
