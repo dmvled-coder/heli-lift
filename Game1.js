@@ -7,7 +7,22 @@
 
   let rankNoticeTimer = null;
 
-  
+ window.requestLandscape = function() {
+    const docElm = document.documentElement;
+    if (docElm.requestFullscreen) {
+        docElm.requestFullscreen().catch(() => {});
+    } else if (docElm.webkitRequestFullscreen) {
+        docElm.webkitRequestFullscreen();
+    } else if (docElm.msRequestFullscreen) {
+        docElm.msRequestFullscreen();
+    }
+
+    if (screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock('landscape').catch((err) => {
+            console.log("Trình duyệt không hỗ trợ tự khóa xoay: ", err);
+        });
+    }
+}; 
 
   // 2. Các Hàm Mở/Đóng Popup Thông Báo Custom
   window.showRankNotice = function(message) {
@@ -152,24 +167,21 @@ document.addEventListener('DOMContentLoaded', () => {
     loadLeaderboard();
     
     // Ép xoay màn hình ngang khi nhấn "VÀO CHƠI"
+document.addEventListener('DOMContentLoaded', () => {
+    loadLeaderboard();
+    
+    // Tự động thử xoay ngang nếu phát hiện màn hình đang ở chiều dọc
+    if (window.innerHeight > window.innerWidth) {
+        window.requestLandscape();
+    }
+
+    // Gán sự kiện cho nút ENTER GAME (gọi chung hàm requestLandscape)
     const enterFsBtn = document.getElementById('enter-fs-btn');
     if (enterFsBtn) {
-        const lockLandscape = () => {
-            const docElm = document.documentElement;
-            if (docElm.requestFullscreen) docElm.requestFullscreen();
-            else if (docElm.webkitRequestFullscreen) docElm.webkitRequestFullscreen();
-            else if (docElm.msRequestFullscreen) docElm.msRequestFullscreen();
-
-            if (screen.orientation && screen.orientation.lock) {
-                screen.orientation.lock('landscape').catch((err) => {
-                    console.log("Trình duyệt không hỗ trợ tự khóa xoay: ", err);
-                });
-            }
-        };
-        enterFsBtn.addEventListener('click', lockLandscape);
-        enterFsBtn.addEventListener('touchend', lockLandscape);
+        enterFsBtn.addEventListener('click', window.requestLandscape);
+        enterFsBtn.addEventListener('touchend', window.requestLandscape);
     }
-    
+      
     // Xử lý nút mở Popup Lưu Điểm
     const saveTrigger = document.getElementById('save-score-trigger');
     if (saveTrigger) {
