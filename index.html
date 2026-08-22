@@ -89,34 +89,51 @@
             #score-popup button { padding: 8px !important; font-size: 12px; }
         }
 
-        /* Lớp phủ cảnh báo xoay màn hình */
-        #orientation-warning {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: #0f172a;
-            z-index: 9999999999 !important;
-            color: white;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            font-family: sans-serif;
-            padding: 20px;
-        }
+        /* Biểu tượng thông báo xoay màn hình nhỏ gọn */
+#orientation-warning {
+    display: none;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 9999999999 !important;
+    cursor: pointer;
+}
 
-        .warning-box { animation: pulse 1.5s infinite; }
-        .phone-icon { font-size: 60px; margin-bottom: 15px; }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+.warning-icon-box {
+    background: rgba(15, 23, 42, 0.85);
+    border: 2px solid #facc15;
+    border-radius: 50px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 0 15px rgba(250, 204, 21, 0.5);
+    animation: pulse 1.5s infinite;
+}
 
-        @media screen and (orientation: portrait) {
-            #orientation-warning { display: flex; }
-            #game-wrapper-fullscreen { display: none !important; }
-        }
+.phone-icon {
+    font-size: 20px;
+    display: inline-block;
+}
 
+.warning-text-sm {
+    color: #facc15;
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+/* Chỉ hiển thị biểu tượng khi màn hình ở chế độ dọc (portrait) */
+@media screen and (orientation: portrait) {
+    #orientation-warning { display: flex !important; }
+    /* BỎ dòng #game-wrapper-fullscreen { display: none !important; } để game không bị ẩn */
+}
         /* Khung bảng xếp hạng bên phải */
         #leaderboard-sidebar {
             position: fixed;
@@ -177,11 +194,11 @@
 </head>
 <body>
     
-<div id="orientation-warning">
-    <div class="warning-box">
-        <div class="phone-icon">🔄</div>
-        <p style="font-size: 18px; font-weight: bold; margin: 0 0 10px 0;">ROTATE YOUR SCREEN TO LANDSCAPE</p>
-        <p style="font-size: 14px; opacity: 0.7; margin: 0;">For the best gaming experience</p>
+<!-- Biểu tượng xoay màn hình đè lên màn hình chính -->
+<div id="orientation-warning" onclick="requestLandscape()">
+    <div class="warning-icon-box">
+        <span class="phone-icon">🔄</span>
+        <span class="warning-text-sm">Xoay ngang màn hình</span>
     </div>
 </div>
     
